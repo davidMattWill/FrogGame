@@ -1,0 +1,420 @@
+[gd_scene load_steps=17 format=3 uid="uid://b4c6bgsg4h041"]
+
+[ext_resource type="Texture2D" uid="uid://bk0ox2segevp8" path="res://imports/Assets/ground-tiles.png" id="3_7fxmm"]
+[ext_resource type="PackedScene" uid="uid://eeopc14vpw7k" path="res://player/player_character.tscn" id="3_sxach"]
+[ext_resource type="Texture2D" uid="uid://bs5k763wlp5k8" path="res://imports/Assets/JumpBar/jump_bar_underneat.png" id="4_ogni1"]
+[ext_resource type="Texture2D" uid="uid://be10avil15a67" path="res://imports/Assets/JumpBar/jump_bar_border.png" id="4_qalcr"]
+[ext_resource type="Texture2D" uid="uid://n1hm27rl734l" path="res://imports/Assets/stalk-sheet.png" id="4_xs6k0"]
+[ext_resource type="Texture2D" uid="uid://bhn1ssp8dbul1" path="res://imports/Assets/JumpBar/jump_bar_progress.png" id="5_akr4a"]
+[ext_resource type="Texture2D" uid="uid://ddcekqm4nh1g6" path="res://imports/Assets/platform-sheet-temp.png" id="5_ww87p"]
+[ext_resource type="PackedScene" uid="uid://vnpt6csmfly2" path="res://npc/mosquito.tscn" id="7_17rfd"]
+[ext_resource type="Texture2D" uid="uid://blvn0o06jkf4e" path="res://imports/Player/heart-empty.png" id="10_riaqi"]
+[ext_resource type="Texture2D" uid="uid://oo0axtjejaa6" path="res://imports/Player/heart-full.png" id="11_6rtka"]
+
+[sub_resource type="GDScript" id="GDScript_nsevk"]
+script/source = "extends CharacterBody2D
+
+# Constants for movement
+const SPEED = 120
+const JUMP_VELOCITY = -1000
+const KNOCKBACK_SPEED = 400
+
+# Gravity from project settings for consistency with RigidBody nodes
+var gravity = ProjectSettings.get_setting(\"physics/2d/default_gravity\")
+var direction: Vector2 = Vector2.ZERO
+
+# Node references
+@onready var animation_tree: AnimationTree = $AnimationTree
+@onready var state_machine: AnimationNodeStateMachinePlayback = animation_tree.get(\"parameters/playback\")
+@onready var ray: RayCast2D = $RayCast2D
+@onready var dust_scene = preload(\"res://player/dust_plume.tscn\")
+@onready var jump_bar = $JumpBar
+
+var anim_states = [
+	\"idle\", \"hop_ready\", \"hop_up\", 
+	\"hop_down\", \"hop_land\", 
+	\"ready_roll_backward\", \"roll_backward\", 
+	\"ready_roll_forward\", \"roll_forward\",
+	\"hit\", \"dead\"]
+
+var anim_conditions = [
+	\"fall_from_roll\", \"hop_apex\", 
+	\"hop_landing\", \"hop_start\", 
+	\"jump_from_roll\", \"player_dead\", 
+	\"player_dead_reset\", \"player_hit\", 
+	\"roll_backward\", \"roll_forward\", \"hop_released\"]
+
+# State flags
+var idling: bool = false
+var getting_ready_to_hop: bool = false
+var ready_to_hop: bool = false
+var ready_to_land: bool = false
+var landing: bool = false
+var is_on_slope: bool = false
+var is_attacked: bool = false
+
+
+var space_held: bool = false
+var space_released: bool = false
+var hold_time = 0.0
+var max_hold_time = 0.5
+
+func _ready():
+	# Initialize animation tree and connect signal
+	animation_tree.active = true
+	animation_tree.connect(\"animation_finished\", _on_animation_finished)
+	jump_bar.visible = false
+
+func _process(delta):
+	# Update animation parameters each frame
+	update_animation_parameters(delta)
+	#print_flags()
+
+func print_flags():
+	print(\"idling: \", idling)
+	print(\"getting ready to hop: \", getting_ready_to_hop)
+	print(\"ready to hop: \", ready_to_hop)
+	print(\"ready to land:\", ready_to_land)
+	print(\"landing: \", landing)
+	print(\"is on slope: \", is_on_slope)
+
+func _physics_process(delta):
+	# Get movement input
+	direction = Input.get_vector(\"ui_left\", \"ui_right\", \"ui_up\", \"ui_down\").normalized()
+	
+	if space_held:
+		hold_time += delta
+		hold_time = min(hold_time, max_hold_time)
+		jump_bar.value = (hold_time / max_hold_time) * 100
+		
+	# Apply gravity when not on floor
+	if not is_on_floor():
+		velocity.y += gravity * delta
+	
+	
+	# Perform jump when ready
+	if ready_to_hop and space_released:
+		velocity.y = JUMP_VELOCITY * (hold_time / max_hold_time)
+		ready_to_hop = false
+		space_released = false
+		_set_animation_conditions_true(['hop_released'])
+	
+	# Handle horizontal movement
+	if direction != Vector2.ZERO and not landing and not getting_ready_to_hop and not is_on_slope and not is_attacked:
+		velocity.x = direction.x * SPEED
+	else:
+		if not is_attacked:
+			velocity.x = move_toward(velocity.x, 0, SPEED)
+	if is_on_floor() and not is_attacked:
+		velocity.x = 0
+	if is_on_floor() and is_attacked:
+		velocity = Vector2(KNOCKBACK_SPEED, -KNOCKBACK_SPEED)
+	
+	# Apply movement
+	move_and_slide()
+
+# Helper to reset and set animation conditions
+func _set_animation_conditions_true(conditions: Array):
+	#clear all animation conditions
+	for condition in anim_conditions:
+		animation_tree.set(\"parameters/conditions/\" + condition, false)
+	if conditions.is_empty():
+		return
+	#set passed conditions to tryue
+	for condition in conditions:
+		if condition in anim_conditions:
+			animation_tree.set(\"parameters/conditions/\" + condition, true)
+			
+# Update animation parameters and states
+func update_animation_parameters(delta):
+	# Update blend positions for all animations if moving and not in specific states
+	if direction != Vector2.ZERO and not getting_ready_to_hop and not landing and not is_on_slope:
+		for state in anim_states:
+			animation_tree[\"parameters/\" + state + \"/blend_position\"] = direction
+	
+	# Handle hop preparation
+	if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor() and not landing and not is_on_slope and not space_held and not is_attacked:
+		_set_animation_conditions_true([\"hop_start\"])
+		getting_ready_to_hop = true
+		#initiate the jump sequence
+		space_held = true
+		hold_time = 0.0
+		jump_bar.visible = true
+		
+	
+	if Input.is_action_just_released(\"ui_accept\") and space_held:
+		space_held = false
+		space_released = true
+		jump_bar.visible = false
+		
+	# Handle falling and apex
+	if not is_on_floor() and not is_on_slope and not is_attacked:
+		if velocity.y > 0: 
+			_set_animation_conditions_true([\"hop_apex\", \"fall_from_roll\"])
+		ready_to_land = true
+	
+	# Handle slope landing
+	#if is_on_slope:
+		#_set_animation_conditions_true([\"land_on_angle\")
+	
+	# Handle landing
+	if is_on_floor() and ready_to_land and not is_on_slope and not is_attacked:
+		
+		_set_animation_conditions_true([\"hop_landing\"])
+		ready_to_land = false
+		landing = true
+		
+		# Spawn dust effect
+		var dust = dust_scene.instantiate()
+		dust.global_position = $Marker2D.global_position
+		get_parent().add_child(dust)
+	
+	#handle fall down animation
+	if is_on_floor() and is_attacked:
+		_set_animation_conditions_true([\"player_dead\"])
+		is_attacked = false
+		
+		
+
+# Handle animation completion
+func _on_animation_finished(anim: String):
+	if anim in [\"hop_ready_l\", \"hop_ready_r\"]:
+		getting_ready_to_hop = false
+		ready_to_hop = true
+	
+	if anim in [\"hop_land_l\", \"hop_land_r\"]:
+		landing = false
+		print(\"Landing finished: \", landing)
+
+# Detect entering a slope
+func _on_area_2d_body_entered(body: Node):
+	if body.is_in_group(\"Slope\"):
+		is_on_slope = true
+
+# Detect exiting a slope
+func _on_area_2d_body_exited(body: Node):
+	if body.is_in_group(\"Slope\"):
+		is_on_slope = false
+
+func _on_player_attacked():
+	is_attacked = true
+	_set_animation_conditions_true([\"player_hit\"])
+
+	
+	
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eomdq"]
+size = Vector2(17, 12)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qykg7"]
+texture = ExtResource("3_7fxmm")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+1:0/0 = 0
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+2:0/0 = 0
+2:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:0/0/physics_layer_0/angular_velocity = 0.0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+3:0/0 = 0
+3:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:0/0/physics_layer_0/angular_velocity = 0.0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+0:1/0 = 0
+0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:1/0/physics_layer_0/angular_velocity = 0.0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+1:1/0 = 0
+1:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:1/0/physics_layer_0/angular_velocity = 0.0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+2:1/0 = 0
+2:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:1/0/physics_layer_0/angular_velocity = 0.0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+3:1/0 = 0
+3:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:1/0/physics_layer_0/angular_velocity = 0.0
+3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+0:2/0 = 0
+0:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:2/0/physics_layer_0/angular_velocity = 0.0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+1:2/0 = 0
+1:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:2/0/physics_layer_0/angular_velocity = 0.0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+2:2/0 = 0
+2:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:2/0/physics_layer_0/angular_velocity = 0.0
+2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+3:2/0 = 0
+3:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:2/0/physics_layer_0/angular_velocity = 0.0
+3:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+0:3/0 = 0
+0:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:3/0/physics_layer_0/angular_velocity = 0.0
+0:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+1:3/0 = 0
+1:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:3/0/physics_layer_0/angular_velocity = 0.0
+1:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+2:3/0 = 0
+2:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:3/0/physics_layer_0/angular_velocity = 0.0
+2:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+3:3/0 = 0
+3:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:3/0/physics_layer_0/angular_velocity = 0.0
+3:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6fh45"]
+texture = ExtResource("4_xs6k0")
+texture_region_size = Vector2i(32, 32)
+1:0/0 = 0
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+0:1/0 = 0
+0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:1/0/physics_layer_0/angular_velocity = 0.0
+1:1/0 = 0
+1:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:1/0/physics_layer_0/angular_velocity = 0.0
+0:0/next_alternative_id = 2
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:2/0 = 0
+0:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:2/0/physics_layer_0/angular_velocity = 0.0
+0:3/0 = 0
+0:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:3/0/physics_layer_0/angular_velocity = 0.0
+1:3/0 = 0
+1:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:3/0/physics_layer_0/angular_velocity = 0.0
+1:2/0 = 0
+1:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:2/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pll8c"]
+texture = ExtResource("5_ww87p")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 0, 16, 0, 16, 4.5, -16, 4.5)
+1:0/0 = 0
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 0, 16, 0, 16, 4.5, -16, 4.5)
+2:0/0 = 0
+2:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:0/0/physics_layer_0/angular_velocity = 0.0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 0, 16, 0, 16, 4.5, -16, 4.5)
+3:0/0 = 0
+3:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:0/0/physics_layer_0/angular_velocity = 0.0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 0, 16, 0, 16, 4.5, -16, 4.5)
+0:1/0 = 0
+0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:1/0/physics_layer_0/angular_velocity = 0.0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -0.5, 16, 0, 16, 5.5, -16, 5.5)
+1:1/0 = 0
+1:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:1/0/physics_layer_0/angular_velocity = 0.0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 0, 16, 0, 16, 5.5, -16, 5.5)
+
+[sub_resource type="TileSet" id="TileSet_6pek7"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_qykg7")
+sources/1 = SubResource("TileSetAtlasSource_6fh45")
+sources/2 = SubResource("TileSetAtlasSource_pll8c")
+
+[node name="main_level" type="Node2D"]
+
+[node name="PlayerCharacter" parent="." instance=ExtResource("3_sxach")]
+position = Vector2(280, 258)
+floor_stop_on_slope = false
+floor_max_angle = 0.207694
+script = SubResource("GDScript_nsevk")
+
+[node name="Camera2D" type="Camera2D" parent="PlayerCharacter"]
+
+[node name="Area2D" type="Area2D" parent="PlayerCharacter"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCharacter/Area2D"]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_eomdq")
+
+[node name="JumpBar" type="TextureProgressBar" parent="PlayerCharacter"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = -8.0
+texture_under = ExtResource("4_ogni1")
+texture_over = ExtResource("4_qalcr")
+texture_progress = ExtResource("5_akr4a")
+
+[node name="TileMap" type="TileMap" parent="."]
+texture_filter = 1
+position = Vector2(288, 232)
+tile_set = SubResource("TileSet_6pek7")
+format = 2
+layer_0/tile_data = PackedInt32Array(65536, 131072, 1, 65537, 65536, 1, 65539, 65536, 1, 131071, 65536, 1, 131070, 0, 1, 131069, 0, 1, 65538, 65536, 1, -393219, 2, 1, -393218, 65538, 0, -655359, 131074, 0, -655358, 2, 0, -393214, 2, 0, 65540, 196608, 1, 262148, 196608, 2, 327676, 0, 3, 327677, 65536, 3, 327678, 131072, 3, 327679, 131072, 3, 262144, 0, 3, 262145, 65536, 3, 262146, 65536, 3, 262147, 0, 3, 196612, 0, 2, 131076, 65536, 2, -720902, 131072, 2, -1245183, 131074, 0, -1245182, 131074, 0, -1245181, 131074, 0, -2162684, 131074, 0, -2162683, 131074, 0, -2424817, 131074, 0, -2424816, 131074, 0, -3080199, 65536, 1, -3538965, 65536, 0, -3670017, 0, 1, -3735552, 131072, 1, -3735551, 0, 1, -4063239, 65538, 0, -4063238, 65538, 0, -4063237, 65538, 0, -4456447, 65538, 0, -4456446, 65538, 0, -4456445, 65538, 0, -5046266, 65538, 0, -5046265, 65538, 0, -5046264, 65538, 0, -5832702, 65538, 0, -5832701, 65538, 0, -6094859, 65538, 0, -6094858, 65538, 0, -6094857, 65538, 1, -3604501, 196608, 0, -3604500, 131072, 1, -3604499, 131072, 1, -3604498, 131072, 1, -3604497, 131072, 1, -3604496, 196608, 1, -3538960, 131072, 2, -3473424, 131072, 2, -3407888, 131072, 2, -3342357, 196608, 3, -3342352, 196608, 2, -3342356, 131072, 3, -3342355, 0, 3, -3342354, 0, 3, -3342353, 0, 3, -3407893, 65536, 0, -3473429, 65536, 0, -3080198, 65536, 1, -3080197, 196608, 1, -3014661, 196608, 2, -3014662, 131072, 3, -3014663, 131072, 3, -3014664, 196608, 3, -3080200, 196608, 0, -3735550, 65536, 1, -3670018, 196608, 0, -3735549, 196608, 1, -3604482, 196608, 3, -3604481, 0, 3, -3670016, 131072, 3, -3670015, 131072, 3, -3670014, 65536, 3, -3670013, 196608, 2, -3670037, 1, 3, -3801085, 1, 3, -3735553, 65537, 1, -3801089, 65537, 0, -3211270, 65537, 2, -3145734, 65537, 3, -1114129, 65536, 1, -1114128, 131072, 1, -1114127, 0, 1, -1114126, 65536, 1, -1114125, 131072, 1, -1048594, 0, 0, -983058, 131072, 0, -917522, 131072, 0, -851986, 131072, 0, -786450, 0, 0, -720914, 131072, 0, -655378, 131072, 0, -589842, 0, 0, -524306, 0, 0, -458770, 131072, 0, -393234, 0, 0, -327698, 0, 0, -262162, 131072, 0, -196626, 65536, 0, -131090, 0, 0, -65554, 131072, 0, -18, 0, 0, 65518, 0, 0, 131054, 65536, 0, 196590, 65536, 0, -1114130, 196608, 0, -1114118, 196608, 1, -1048582, 131072, 2, -983046, 131072, 2, -917510, 131072, 2, -851974, 131072, 2, -786438, 131072, 2, -655366, 131072, 2, -589830, 131072, 2, -524294, 131072, 2, -458758, 131072, 2, -393222, 131072, 2, -327686, 131072, 2, -262150, 131072, 2, -196614, 131072, 2, -131078, 131072, 2, -65542, 131072, 2, -6, 131072, 2, 65530, 131072, 2, 327675, 131072, 3, 327674, 131072, 3, 327673, 131072, 3, 327672, 131072, 3, 327671, 131072, 3, 327670, 131072, 3, 327669, 131072, 3, 327668, 131072, 3, 327667, 131072, 3, 327666, 131072, 3, 327665, 131072, 3, 327664, 131072, 3, 327663, 131072, 3, 327662, 196608, 3, 262126, 65536, 0, -1114119, 65536, 1, -1114120, 65536, 1, -1114121, 65536, 1, -1114122, 65536, 1, -1114123, 65536, 1, -1114124, 65536, 1, -1245202, 65537, 0, -1179666, 65537, 1, -6422545, 0, 3, -6422544, 65536, 3, -6422543, 131072, 3, -6422546, 196608, 3, -6422542, 196608, 2, -6488082, 196608, 0, -6488081, 0, 1, -6488080, 0, 1, -6488079, 0, 1, -6488078, 196608, 1, -6553618, 1, 3, -6619150, 65537, 0, -6553614, 65537, 1, -3407856, 196608, 0, -3342320, 196608, 3, -3407855, 65536, 1, -3342319, 131072, 3, -3407854, 65536, 1, -3342318, 131072, 3, -3407853, 196608, 1, -3342317, 196608, 2, -5177356, 196608, 0, -5111820, 196608, 3, -5177355, 65536, 1, -5111819, 131072, 3, -5177354, 65536, 1, -5111818, 131072, 3, -5177353, 196608, 1, -5111817, 196608, 2, -6291453, 196608, 0, -6225917, 196608, 3, -6291452, 65536, 1, -6225916, 131072, 3, -6291451, 65536, 1, -6225915, 131072, 3, -6291450, 196608, 1, -6225914, 196608, 2, -2424851, 196608, 0, -2359315, 196608, 3, -2424850, 0, 1, -2359314, 0, 3, -2424849, 65536, 1, -2359313, 65536, 3, -2424848, 131072, 1, -2359312, 131072, 3, -2424847, 196608, 1, -2359311, 196608, 2, -65534, 65537, 0, 2, 65537, 1, -917506, 65538, 1, -917505, 2, 1, -983040, 2, 0, 131068, 0, 1, 131067, 0, 1)
+
+[node name="UICanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HealthUI" type="Control" parent="UICanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 36.0
+offset_bottom = 11.0
+scale = Vector2(2, 2)
+metadata/_edit_use_anchors_ = true
+
+[node name="HealthEmpty" type="TextureRect" parent="UICanvasLayer/HealthUI"]
+layout_mode = 0
+offset_right = 36.0
+offset_bottom = 11.0
+texture = ExtResource("10_riaqi")
+stretch_mode = 1
+
+[node name="HealthFull" type="TextureRect" parent="UICanvasLayer/HealthUI"]
+layout_mode = 1
+offset_right = 36.0
+offset_bottom = 11.0
+texture = ExtResource("11_6rtka")
+stretch_mode = 1
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Snails" type="Node2D" parent="Enemies"]
+
+[node name="Mosquitos" type="Node2D" parent="Enemies"]
+
+[node name="Mosquito_5" parent="Enemies/Mosquitos" instance=ExtResource("7_17rfd")]
+position = Vector2(-175, -2385)
+
+[node name="Mosquito_4" parent="Enemies/Mosquitos" instance=ExtResource("7_17rfd")]
+position = Vector2(0, -415)
+
+[node name="Mosquito_3" parent="Enemies/Mosquitos" instance=ExtResource("7_17rfd")]
+position = Vector2(-167, -1063)
+
+[node name="Mosquito_2" parent="Enemies/Mosquitos" instance=ExtResource("7_17rfd")]
+position = Vector2(160, -1631)
+
+[node name="Mosquito_1" parent="Enemies/Mosquitos" instance=ExtResource("7_17rfd")]
+position = Vector2(430, 158)
+
+[connection signal="body_entered" from="PlayerCharacter/Area2D" to="PlayerCharacter" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="PlayerCharacter/Area2D" to="PlayerCharacter" method="_on_area_2d_body_exited"]
