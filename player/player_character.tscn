@@ -1094,6 +1094,7 @@ graph_offset = Vector2(407.144, 6.78479)
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_v7tup"]
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+collision_layer = 2
 
 [node name="player_frames" type="Sprite2D" parent="."]
 texture = ExtResource("1_raj6s")

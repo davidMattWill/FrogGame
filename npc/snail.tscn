@@ -1,23 +1,24 @@
-[gd_scene load_steps=16 format=3 uid="uid://dyqayj5kpvq5y"]
+[gd_scene load_steps=17 format=3 uid="uid://dyqayj5kpvq5y"]
 
-[ext_resource type="Texture2D" uid="uid://l6ef71x5pjb2" path="res://imports/Assets/Snail/snail-sheet.png" id="1_qgva8"]
+[ext_resource type="Texture2D" uid="uid://cvvks55crm5si" path="res://imports/Assets/Snail/snail-sheet-alt.png" id="1_cxwmd"]
+[ext_resource type="Script" path="res://npc/snail_controller.gd" id="1_j6wp7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rhg7l"]
-size = Vector2(23, 21)
+size = Vector2(10, 9)
 
 [sub_resource type="Animation" id="Animation_h25y8"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Frames:frame")
+tracks/0/path = NodePath("Frames:frame_coords")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0]
+"values": [Vector2i(0, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -34,19 +35,19 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_vx2hj"]
 resource_name = "idle_l"
-length = 2.0
+length = 0.9
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Frames:frame")
+tracks/0/path = NodePath("Frames:frame_coords")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [0, 1]
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -61,21 +62,21 @@ tracks/1/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_cu3no"]
+[sub_resource type="Animation" id="Animation_jjhua"]
 resource_name = "idle_r"
-length = 2.0
+length = 0.9
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Frames:frame")
+tracks/0/path = NodePath("Frames:frame_coords")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [0, 1]
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -94,7 +95,7 @@ tracks/1/keys = {
 _data = {
 "RESET": SubResource("Animation_h25y8"),
 "idle_l": SubResource("Animation_vx2hj"),
-"idle_r": SubResource("Animation_cu3no")
+"idle_r": SubResource("Animation_jjhua")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xxsqu"]
@@ -128,21 +129,25 @@ advance_mode = 2
 advance_condition = &"snail_dead"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_0dvjg"]
-states/Idle/node = SubResource("AnimationNodeBlendSpace2D_tphpn")
-states/Idle/position = Vector2(531, 100)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_8werp"), "Idle", "End", SubResource("AnimationNodeStateMachineTransition_dwl5n")]
+states/idle/node = SubResource("AnimationNodeBlendSpace2D_tphpn")
+states/idle/position = Vector2(531, 100)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_8werp"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_dwl5n")]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_utll5"]
 
 [node name="Snail" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_j6wp7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1.5, 0.5)
+position = Vector2(1, 1.5)
 shape = SubResource("RectangleShape2D_rhg7l")
 
 [node name="Frames" type="Sprite2D" parent="."]
-texture = ExtResource("1_qgva8")
-hframes = 2
+texture = ExtResource("1_cxwmd")
+hframes = 3
+vframes = 2
+frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -155,4 +160,20 @@ anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource("AnimationNodeStateMachinePlayback_utll5")
 parameters/conditions/snail_dead = false
-parameters/Idle/blend_position = Vector2(0.116981, 0.344978)
+parameters/idle/blend_position = Vector2(0.382789, 0.312693)
+
+[node name="wallcast_left" type="RayCast2D" parent="."]
+rotation = 1.5708
+target_position = Vector2(0, 18)
+
+[node name="floorcast_left" type="RayCast2D" parent="."]
+position = Vector2(-14, 0)
+target_position = Vector2(0, 7)
+
+[node name="floorcast_right" type="RayCast2D" parent="."]
+position = Vector2(15, 0)
+target_position = Vector2(0, 7)
+
+[node name="wallcast_right" type="RayCast2D" parent="."]
+rotation = -1.5708
+target_position = Vector2(0, 18)
