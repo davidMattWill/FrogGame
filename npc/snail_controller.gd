@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 # Movement properties
-var speed = 15.0  # Speed of the snail
+var speed = 10.0  # Speed of the snail
 var direction = 1.0  # 1 for right, -1 for left
 var idle_time = 0.0  # Timer for random idling
 var max_idle_duration = 2 # Max time to idle in seconds
