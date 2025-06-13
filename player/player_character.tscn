@@ -1,6 +1,6 @@
-[gd_scene load_steps=113 format=3 uid="uid://eeopc14vpw7k"]
+[gd_scene load_steps=113 format=3 uid="uid://clspkafej47q5"]
 
-[ext_resource type="Texture2D" uid="uid://cl0dk12y43brc" path="res://imports/Player/player-sheet-fixed.png" id="1_raj6s"]
+[ext_resource type="Texture2D" uid="uid://cl0dk12y43brc" path="res://imports/Assets/Player/player-sheet-fixed.png" id="1_2ietk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ra3r"]
 size = Vector2(17, 12)
@@ -1109,7 +1109,7 @@ graph_offset = Vector2(105.144, -308.215)
 collision_layer = 2
 
 [node name="player_frames" type="Sprite2D" parent="."]
-texture = ExtResource("1_raj6s")
+texture = ExtResource("1_2ietk")
 flip_h = true
 hframes = 7
 vframes = 6

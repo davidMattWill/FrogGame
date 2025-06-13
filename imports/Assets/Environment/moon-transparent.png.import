@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://blvn0o06jkf4e"
-path="res://.godot/imported/heart-empty.png-4585f528b416819cddf7cf305fce6601.ctex"
+uid="uid://coip7na1hucrn"
+path="res://.godot/imported/moon-transparent.png-d058fc24451374c3b5a2f007ee1b711b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Player/heart-empty.png"
-dest_files=["res://.godot/imported/heart-empty.png-4585f528b416819cddf7cf305fce6601.ctex"]
+source_file="res://imports/Assets/Environment/moon-transparent.png"
+dest_files=["res://.godot/imported/moon-transparent.png-d058fc24451374c3b5a2f007ee1b711b.ctex"]
 
 [params]
 

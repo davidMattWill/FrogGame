@@ -1,6 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://bamw7l0hxg0ux"]
+[gd_scene load_steps=10 format=3]
 
-[ext_resource type="Texture2D" uid="uid://dhbtgia7hcorx" path="res://imports/Player/dust-sheet.png" id="1_mh5so"]
+[ext_resource type="Texture2D" uid="uid://dhbtgia7hcorx" path="res://imports/Assets/Player/dust-sheet.png" id="1_mh5so"]
 [ext_resource type="Script" path="res://dust_plume.gd" id="2_yiy7c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ju3wl"]

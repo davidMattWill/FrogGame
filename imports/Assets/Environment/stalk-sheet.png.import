@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhbtgia7hcorx"
-path="res://.godot/imported/dust-sheet.png-ab396cce99cf5274d760b366722240da.ctex"
+uid="uid://n1hm27rl734l"
+path="res://.godot/imported/stalk-sheet.png-ad4a3366df2b863abbfb94ee24f6045c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Player/dust-sheet.png"
-dest_files=["res://.godot/imported/dust-sheet.png-ab396cce99cf5274d760b366722240da.ctex"]
+source_file="res://imports/Assets/Environment/stalk-sheet.png"
+dest_files=["res://.godot/imported/stalk-sheet.png-ad4a3366df2b863abbfb94ee24f6045c.ctex"]
 
 [params]
 

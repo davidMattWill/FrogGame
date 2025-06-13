@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvvks55crm5si"
-path="res://.godot/imported/snail-sheet-alt.png-cdc44cdd1d8c5b6e48d8a8e3fc3f7dcf.ctex"
+uid="uid://oo0axtjejaa6"
+path="res://.godot/imported/heart-full.png-92b7841e6f4f23bf9ade97095e80ba55.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Assets/Snail/snail-sheet-alt.png"
-dest_files=["res://.godot/imported/snail-sheet-alt.png-cdc44cdd1d8c5b6e48d8a8e3fc3f7dcf.ctex"]
+source_file="res://imports/Assets/Player/heart-full.png"
+dest_files=["res://.godot/imported/heart-full.png-92b7841e6f4f23bf9ade97095e80ba55.ctex"]
 
 [params]
 

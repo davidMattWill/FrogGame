@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbb7juqn8tg06"
-path="res://.godot/imported/moon.png-b04dc97012f374ab99ca35cd346e4a59.ctex"
+uid="uid://unt42xfkbsfe"
+path="res://.godot/imported/snail_spritesheet.png-e51f6ec71b523200f58913b33a1e76cc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Assets/moon.png"
-dest_files=["res://.godot/imported/moon.png-b04dc97012f374ab99ca35cd346e4a59.ctex"]
+source_file="res://imports/Assets/Snail/snail_spritesheet.png"
+dest_files=["res://.godot/imported/snail_spritesheet.png-e51f6ec71b523200f58913b33a1e76cc.ctex"]
 
 [params]
 

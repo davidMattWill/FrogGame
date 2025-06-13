@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ce5t75lmjsvqd"
-path="res://.godot/imported/rock-asset.png-907c42059a762a0d2cb8f1aa3d378314.ctex"
+uid="uid://c6sn2my06k0rp"
+path="res://.godot/imported/tiles-new.png-39b71da567b1a73857e9f3d1f3934a8a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Assets/rock-asset.png"
-dest_files=["res://.godot/imported/rock-asset.png-907c42059a762a0d2cb8f1aa3d378314.ctex"]
+source_file="res://imports/Assets/Environment/tiles-new.png"
+dest_files=["res://.godot/imported/tiles-new.png-39b71da567b1a73857e9f3d1f3934a8a.ctex"]
 
 [params]
 

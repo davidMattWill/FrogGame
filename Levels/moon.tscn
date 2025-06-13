@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b84cwgexp8u4m"]
-
-[ext_resource type="Texture2D" uid="uid://cbb7juqn8tg06" path="res://imports/Assets/moon.png" id="1_wh3aw"]
-
-[node name="Sprite2D" type="Sprite2D"]
-texture_filter = 1
-texture = ExtResource("1_wh3aw")

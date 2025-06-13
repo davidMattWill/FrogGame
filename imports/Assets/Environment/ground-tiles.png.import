@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfsdywyss5d2b"
-path="res://.godot/imported/roll-sheet-temp.png-f6c3fa71b049dc0b09242609156c79d4.ctex"
+uid="uid://bk0ox2segevp8"
+path="res://.godot/imported/ground-tiles.png-12ca0447015cd379169650b5a24a5b1d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Assets/roll-sheet-temp.png"
-dest_files=["res://.godot/imported/roll-sheet-temp.png-f6c3fa71b049dc0b09242609156c79d4.ctex"]
+source_file="res://imports/Assets/Environment/ground-tiles.png"
+dest_files=["res://.godot/imported/ground-tiles.png-12ca0447015cd379169650b5a24a5b1d.ctex"]
 
 [params]
 

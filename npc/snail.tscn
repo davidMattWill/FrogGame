@@ -1,7 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://dyqayj5kpvq5y"]
+[gd_scene load_steps=26 format=3 uid="uid://dyqayj5kpvq5y"]
 
-[ext_resource type="Texture2D" uid="uid://cvvks55crm5si" path="res://imports/Assets/Snail/snail-sheet-alt.png" id="1_cxwmd"]
 [ext_resource type="Script" path="res://npc/snail_controller.gd" id="1_j6wp7"]
+[ext_resource type="Texture2D" uid="uid://unt42xfkbsfe" path="res://imports/Assets/Snail/snail_spritesheet.png" id="2_ggoax"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rhg7l"]
 size = Vector2(10, 9)
@@ -35,8 +35,9 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_vx2hj"]
 resource_name = "idle_l"
-length = 0.9
+length = 1.25
 loop_mode = 1
+step = 0.25
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -44,10 +45,10 @@ tracks/0/path = NodePath("Frames:frame_coords")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.2, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1)]
+"values": [Vector2i(0, 0), Vector2i(1, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -62,10 +63,11 @@ tracks/1/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_jjhua"]
+[sub_resource type="Animation" id="Animation_16ctb"]
 resource_name = "idle_r"
-length = 0.9
+length = 1.25
 loop_mode = 1
+step = 0.25
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -73,10 +75,10 @@ tracks/0/path = NodePath("Frames:frame_coords")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.2, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1)]
+"values": [Vector2i(0, 0), Vector2i(1, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -91,12 +93,97 @@ tracks/1/keys = {
 "values": [false]
 }
 
+[sub_resource type="Animation" id="Animation_u3xfu"]
+resource_name = "attack_r"
+length = 0.6
+loop_mode = 1
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Frames:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Frames:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ct6ea"]
+resource_name = "attack_l"
+length = 0.6
+loop_mode = 1
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Frames:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Frames:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7v35x"]
 _data = {
 "RESET": SubResource("Animation_h25y8"),
+"attack_l": SubResource("Animation_ct6ea"),
+"attack_r": SubResource("Animation_u3xfu"),
 "idle_l": SubResource("Animation_vx2hj"),
-"idle_r": SubResource("Animation_jjhua")
+"idle_r": SubResource("Animation_16ctb")
 }
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_eqqux"]
+animation = &"attack_l"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cddxn"]
+animation = &"attack_l"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_crdv8"]
+animation = &"attack_r"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2pt14"]
+animation = &"attack_r"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_hmf0e"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_eqqux")
+blend_point_0/pos = Vector2(-1, 1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_cddxn")
+blend_point_1/pos = Vector2(-1, -1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_crdv8")
+blend_point_2/pos = Vector2(1, 1)
+blend_point_3/node = SubResource("AnimationNodeAnimation_2pt14")
+blend_point_3/pos = Vector2(1, -1)
+blend_mode = 1
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xxsqu"]
 animation = &"idle_l"
@@ -128,10 +215,21 @@ advance_mode = 2
 advance_mode = 2
 advance_condition = &"snail_dead"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_lgm40"]
+advance_mode = 2
+advance_condition = &"spotted_player"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_eoqwo"]
+advance_mode = 2
+advance_condition = &"lost_player"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_0dvjg"]
+states/attack/node = SubResource("AnimationNodeBlendSpace2D_hmf0e")
+states/attack/position = Vector2(531, -29)
 states/idle/node = SubResource("AnimationNodeBlendSpace2D_tphpn")
 states/idle/position = Vector2(531, 100)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_8werp"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_dwl5n")]
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_8werp"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_dwl5n"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_lgm40"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_eoqwo")]
+graph_offset = Vector2(56, -145)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_utll5"]
 
@@ -140,14 +238,13 @@ collision_layer = 2
 script = ExtResource("1_j6wp7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 1.5)
 shape = SubResource("RectangleShape2D_rhg7l")
 
 [node name="Frames" type="Sprite2D" parent="."]
-texture = ExtResource("1_cxwmd")
-hframes = 3
+texture = ExtResource("2_ggoax")
+hframes = 4
 vframes = 2
-frame = 3
+frame = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -159,8 +256,11 @@ tree_root = SubResource("AnimationNodeStateMachine_0dvjg")
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource("AnimationNodeStateMachinePlayback_utll5")
+parameters/conditions/lost_player = false
 parameters/conditions/snail_dead = false
-parameters/idle/blend_position = Vector2(0.382789, 0.312693)
+parameters/conditions/spotted_player = false
+parameters/attack/blend_position = Vector2(-0.608659, -0.226923)
+parameters/idle/blend_position = Vector2(0.13572, 0.253846)
 
 [node name="wallcast_left" type="RayCast2D" parent="."]
 rotation = 1.5708
