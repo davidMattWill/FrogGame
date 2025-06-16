@@ -38,7 +38,8 @@ var anim_conditions = [
 	"player_hit",
 	"roll_backward",
 	"roll_forward",
-	"hop_released"
+	"hop_released",
+	"hit_mushroom"
 ]
 
 var space_held: bool = false
@@ -182,6 +183,10 @@ func _on_player_attacked(attack_vector):
 	var attack_dir = -attack_vector.x / abs(attack_vector.x)
 	velocity = Vector2(attack_dir * KNOCKBACK_SPEED, -KNOCKBACK_SPEED)
 	
+func _on_hit_mushroom():
+	print(current_state)
+	_set_animation_conditions_true(["hit_mushroom"])
+	velocity.y = JUMP_VELOCITY * 1.5
 	
 func _on_animation_finished(anim: String):
 	if anim in ["hop_ready_l", "hop_ready_r"]:
