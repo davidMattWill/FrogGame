@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpgwrvofwvfl6"]
+
+[ext_resource type="Texture2D" uid="uid://cx2q1emo6irhi" path="res://imports/Assets/UI/game-over-message.png" id="1_h5hmj"]
+
+[node name="Game Over" type="Sprite2D"]
+texture = ExtResource("1_h5hmj")
