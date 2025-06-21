@@ -2,7 +2,7 @@ extends Camera2D
 
 # Reference to the player node
 @onready var player: CharacterBody2D = get_node("/root/main_level/PlayerCharacter")
-@onready var lost_message: Sprite2D = get_node("/root/main_level/UICanvasLayer/Lost Message")
+@onready var lost_message: Sprite2D = get_node("/root/main_level/UICanvasLayer/Messages/Lost Message")
 
 # How quickly the camera catches up (lower = smoother, more trailing)
 @export var follow_speed: float = 20
