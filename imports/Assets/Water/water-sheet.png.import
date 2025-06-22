@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://n1hm27rl734l"
-path="res://.godot/imported/stalk-sheet.png-ad4a3366df2b863abbfb94ee24f6045c.ctex"
+uid="uid://bq1rn3v7qawft"
+path="res://.godot/imported/water-sheet.png-960964b632a093d7ae1f0eba438efed7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Assets/Environment/stalk-sheet.png"
-dest_files=["res://.godot/imported/stalk-sheet.png-ad4a3366df2b863abbfb94ee24f6045c.ctex"]
+source_file="res://imports/Assets/Water/water-sheet.png"
+dest_files=["res://.godot/imported/water-sheet.png-960964b632a093d7ae1f0eba438efed7.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bk0ox2segevp8"
-path="res://.godot/imported/ground-tiles.png-12ca0447015cd379169650b5a24a5b1d.ctex"
+uid="uid://c88ulbc7onqau"
+path="res://.godot/imported/level-sheet.png-c08dcca97a842c510e7f029b9fdb3c9f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Assets/Environment/ground-tiles.png"
-dest_files=["res://.godot/imported/ground-tiles.png-12ca0447015cd379169650b5a24a5b1d.ctex"]
+source_file="res://imports/Assets/Environment/level-sheet.png"
+dest_files=["res://.godot/imported/level-sheet.png-c08dcca97a842c510e7f029b9fdb3c9f.ctex"]
 
 [params]
 
