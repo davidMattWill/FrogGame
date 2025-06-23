@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://ki7qs3olfwl8"]
 
-[ext_resource type="Script" path="res://npc/mushroom.gd" id="1_3ttvt"]
-[ext_resource type="Texture2D" uid="uid://wkdm6gy87i8n" path="res://imports/Assets/Mushroom/mushroom-1-Sheet-test.png" id="1_v1v1x"]
+[ext_resource type="Script" path="res://scenes/mushroom/mushroom.gd" id="1_pajpa"]
+[ext_resource type="Texture2D" uid="uid://wkdm6gy87i8n" path="res://imports/Assets/Mushroom/mushroom-1-Sheet-test.png" id="2_vynmw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kew0c"]
 size = Vector2(20, 27)
@@ -93,10 +93,10 @@ size = Vector2(22, 28.875)
 [node name="Mushroom" type="StaticBody2D"]
 collision_layer = 4
 collision_mask = 2
-script = ExtResource("1_3ttvt")
+script = ExtResource("1_pajpa")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_v1v1x")
+texture = ExtResource("2_vynmw")
 hframes = 4
 
 [node name="MushroomCollider" type="CollisionShape2D" parent="."]

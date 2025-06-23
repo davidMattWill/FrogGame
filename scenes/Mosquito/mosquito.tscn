@@ -1,6 +1,6 @@
-[gd_scene load_steps=32 format=3 uid="uid://vnpt6csmfly2"]
+[gd_scene load_steps=32 format=3]
 
-[ext_resource type="Script" path="res://npc/mosquito_controller.gd" id="1_gc8lk"]
+[ext_resource type="Script" path="res://scenes/Mosquito/mosquito_controller.gd" id="1_gc8lk"]
 [ext_resource type="Texture2D" uid="uid://b14t2dwbqhnl4" path="res://imports/Assets/Mosquito/mosquito-test-sheet-export.png" id="2_6bh1k"]
 
 [sub_resource type="Animation" id="Animation_yvxru"]

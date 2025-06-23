@@ -14,7 +14,7 @@ var direction: Vector2 = Vector2.ZERO
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 @onready var ray: RayCast2D = $RayCast2D
-@onready var dust_scene = preload("res://player/dust_plume.tscn")
+@onready var dust_scene = preload("res://scenes/player/dust_plume.tscn")
 @onready var jump_bar = $JumpBar
 
 var current_state: String = ""
@@ -51,9 +51,8 @@ var max_hold_time = 0.5
 var is_on_slope: bool = false
 var jumping_from_roll: bool = false
 
-
-
 signal health_changed(value)
+signal player_dead()
 var playerhealth = 3
 
 func _ready():
@@ -166,7 +165,7 @@ func _set_animation_conditions_true(conditions: Array):
 		if condition in anim_conditions:
 			animation_tree.set("parameters/conditions/" + condition, true)
 
-func _on_player_attacked(attack_vector):
+func _on_player_attacked(attack_vector = null):
 	var frames: Sprite2D = $player_frames
 		#make player fall in correct direction with correct orientation
 	if !frames.flip_h:
@@ -178,10 +177,31 @@ func _on_player_attacked(attack_vector):
 		
 	playerhealth = playerhealth - 1
 	emit_signal("health_changed", playerhealth)
+	if playerhealth == 0:
+		emit_signal("player_dead")
 	_set_animation_conditions_true(["player_hit"])
-	
-	var attack_dir = -attack_vector.x / abs(attack_vector.x)
-	velocity = Vector2(attack_dir * KNOCKBACK_SPEED, -KNOCKBACK_SPEED)
+	if attack_vector != null:
+		var attack_dir = -attack_vector.x / abs(attack_vector.x)
+		velocity = Vector2(attack_dir * KNOCKBACK_SPEED, -KNOCKBACK_SPEED)
+	else:
+		velocity.x = -velocity.x * KNOCKBACK_SPEED
+		velocity.y = -KNOCKBACK_SPEED
+		var sign_x = sign(velocity.x)
+		var sign_y = sign(velocity.y)
+		print(sign_x, sign_y)
+		if sign_x != 0:
+			velocity.x = sign_x * KNOCKBACK_SPEED
+		else:
+			if !frames.flip_h:
+				velocity.x = -1 * KNOCKBACK_SPEED
+			else:
+				velocity.x = KNOCKBACK_SPEED
+		if sign_y != 0:
+			velocity.y = sign_y * KNOCKBACK_SPEED
+		else:
+			velocity.y = -1 * KNOCKBACK_SPEED
+		
+		
 	
 func _on_hit_mushroom():
 	print(current_state)

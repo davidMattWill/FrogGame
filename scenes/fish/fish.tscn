@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://b3oo6r8v057qb"]
+
+[ext_resource type="Script" path="res://scenes/fish/fish.gd" id="1_i7v77"]
+[ext_resource type="Texture2D" uid="uid://crqaabb1w1vbo" path="res://imports/Assets/fish/fish.png" id="2_a17ir"]
+[ext_resource type="PackedScene" uid="uid://i8foll2kbj3d" path="res://scenes/water/bubble.tscn" id="2_u8rvu"]
+[ext_resource type="Script" path="res://scenes/fish/Marker2D.gd" id="3_xy12t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j5gv0"]
+size = Vector2(12, 7)
+
+[node name="fish" type="CharacterBody2D"]
+position = Vector2(223, 132)
+script = ExtResource("1_i7v77")
+bubble_scene = ExtResource("2_u8rvu")
+
+[node name="fish_frames" type="Sprite2D" parent="."]
+texture = ExtResource("2_a17ir")
+
+[node name="Marker2D" type="Marker2D" parent="fish_frames"]
+position = Vector2(8, 0)
+script = ExtResource("3_xy12t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_j5gv0")
+
+[node name="ray_left" type="RayCast2D" parent="."]
+rotation = 1.5708
+target_position = Vector2(6.11959e-07, 14)
+
+[node name="ray_right" type="RayCast2D" parent="."]
+rotation = -1.5708
+target_position = Vector2(-5.68248e-07, 13)

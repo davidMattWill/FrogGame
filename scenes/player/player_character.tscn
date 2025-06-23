@@ -1,9 +1,9 @@
-[gd_scene load_steps=116 format=3 uid="uid://clspkafej47q5"]
+[gd_scene load_steps=118 format=3 uid="uid://clspkafej47q5"]
 
 [ext_resource type="Texture2D" uid="uid://cl0dk12y43brc" path="res://imports/Assets/Player/player-sheet-fixed.png" id="1_2ietk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ra3r"]
-size = Vector2(16, 12)
+size = Vector2(11, 12)
 
 [sub_resource type="Animation" id="Animation_0i10w"]
 length = 0.001
@@ -274,8 +274,8 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_r8042"]
 resource_name = "hop_ready_l"
-length = 0.1
-step = 0.05
+length = 0.08
+step = 0.04
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -283,7 +283,7 @@ tracks/0/path = NodePath("player_frames:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05),
+"times": PackedFloat32Array(0, 0.04),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [1, 2]
@@ -303,8 +303,8 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_dvlv6"]
 resource_name = "hop_ready_r"
-length = 0.1
-step = 0.05
+length = 0.08
+step = 0.04
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -312,7 +312,7 @@ tracks/0/path = NodePath("player_frames:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05),
+"times": PackedFloat32Array(0, 0.04),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [1, 2]
@@ -1089,6 +1089,14 @@ advance_condition = &"hit_mushroom"
 advance_mode = 2
 advance_condition = &"hit_mushroom"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vqodg"]
+advance_mode = 2
+advance_condition = &"jump_from_roll"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_p1ppf"]
+advance_mode = 2
+advance_condition = &"jump_from_roll"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_s0fhe"]
 states/End/position = Vector2(661, 252)
 states/Start/position = Vector2(378, 168)
@@ -1114,8 +1122,8 @@ states/roll_backward/node = SubResource("AnimationNodeBlendSpace2D_cc70s")
 states/roll_backward/position = Vector2(466.714, -265.659)
 states/roll_forward/node = SubResource("AnimationNodeBlendSpace2D_238ew")
 states/roll_forward/position = Vector2(927.554, -265.659)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_gfry7"), "hop_up", "hop_down", SubResource("AnimationNodeStateMachineTransition_u1263"), "hop_down", "hop_land", SubResource("AnimationNodeStateMachineTransition_h4acn"), "hop_land", "idle", SubResource("AnimationNodeStateMachineTransition_4881i"), "idle", "hop_ready", SubResource("AnimationNodeStateMachineTransition_a5qbo"), "ready_roll_backward", "roll_backward", SubResource("AnimationNodeStateMachineTransition_tx7u7"), "hop_up", "ready_roll_backward", SubResource("AnimationNodeStateMachineTransition_1lyuf"), "hop_down", "ready_roll_backward", SubResource("AnimationNodeStateMachineTransition_y365p"), "roll_backward", "hop_up", SubResource("AnimationNodeStateMachineTransition_dmgrg"), "roll_backward", "hop_down", SubResource("AnimationNodeStateMachineTransition_13iwg"), "hop_down", "ready_roll_forward", SubResource("AnimationNodeStateMachineTransition_prg2j"), "roll_forward", "hop_down", SubResource("AnimationNodeStateMachineTransition_savug"), "roll_forward", "hop_up", SubResource("AnimationNodeStateMachineTransition_xm0yt"), "ready_roll_forward", "roll_forward", SubResource("AnimationNodeStateMachineTransition_8t1uc"), "roll_backward", "hit", SubResource("AnimationNodeStateMachineTransition_pgirm"), "roll_forward", "hit", SubResource("AnimationNodeStateMachineTransition_pr8ug"), "hop_up", "hit", SubResource("AnimationNodeStateMachineTransition_jyk48"), "hop_down", "hit", SubResource("AnimationNodeStateMachineTransition_43pk4"), "hop_land", "hit", SubResource("AnimationNodeStateMachineTransition_lcnfb"), "idle", "hit", SubResource("AnimationNodeStateMachineTransition_8fo2t"), "hit", "dead", SubResource("AnimationNodeStateMachineTransition_hmsly"), "dead", "idle", SubResource("AnimationNodeStateMachineTransition_0sdk0"), "hop_ready", "hop_up", SubResource("AnimationNodeStateMachineTransition_kkkbr"), "hop_ready", "hit", SubResource("AnimationNodeStateMachineTransition_5tol6"), "ready_roll_forward", "hit", SubResource("AnimationNodeStateMachineTransition_rf25h"), "ready_roll_backward", "hit", SubResource("AnimationNodeStateMachineTransition_fs8xl"), "dead", "hit", SubResource("AnimationNodeStateMachineTransition_mnfgy"), "roll_backward", "hop_land", SubResource("AnimationNodeStateMachineTransition_aowf2"), "roll_forward", "hop_land", SubResource("AnimationNodeStateMachineTransition_317f7"), "hop_ready", "idle", SubResource("AnimationNodeStateMachineTransition_4y6r4"), "hop_down", "hop_up", SubResource("AnimationNodeStateMachineTransition_o5xan"), "hop_land", "hop_up", SubResource("AnimationNodeStateMachineTransition_bene4")]
-graph_offset = Vector2(242.144, -28.726)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_gfry7"), "hop_up", "hop_down", SubResource("AnimationNodeStateMachineTransition_u1263"), "hop_down", "hop_land", SubResource("AnimationNodeStateMachineTransition_h4acn"), "hop_land", "idle", SubResource("AnimationNodeStateMachineTransition_4881i"), "idle", "hop_ready", SubResource("AnimationNodeStateMachineTransition_a5qbo"), "ready_roll_backward", "roll_backward", SubResource("AnimationNodeStateMachineTransition_tx7u7"), "hop_up", "ready_roll_backward", SubResource("AnimationNodeStateMachineTransition_1lyuf"), "hop_down", "ready_roll_backward", SubResource("AnimationNodeStateMachineTransition_y365p"), "roll_backward", "hop_up", SubResource("AnimationNodeStateMachineTransition_dmgrg"), "roll_backward", "hop_down", SubResource("AnimationNodeStateMachineTransition_13iwg"), "hop_down", "ready_roll_forward", SubResource("AnimationNodeStateMachineTransition_prg2j"), "roll_forward", "hop_down", SubResource("AnimationNodeStateMachineTransition_savug"), "roll_forward", "hop_up", SubResource("AnimationNodeStateMachineTransition_xm0yt"), "ready_roll_forward", "roll_forward", SubResource("AnimationNodeStateMachineTransition_8t1uc"), "roll_backward", "hit", SubResource("AnimationNodeStateMachineTransition_pgirm"), "roll_forward", "hit", SubResource("AnimationNodeStateMachineTransition_pr8ug"), "hop_up", "hit", SubResource("AnimationNodeStateMachineTransition_jyk48"), "hop_down", "hit", SubResource("AnimationNodeStateMachineTransition_43pk4"), "hop_land", "hit", SubResource("AnimationNodeStateMachineTransition_lcnfb"), "idle", "hit", SubResource("AnimationNodeStateMachineTransition_8fo2t"), "hit", "dead", SubResource("AnimationNodeStateMachineTransition_hmsly"), "dead", "idle", SubResource("AnimationNodeStateMachineTransition_0sdk0"), "hop_ready", "hop_up", SubResource("AnimationNodeStateMachineTransition_kkkbr"), "hop_ready", "hit", SubResource("AnimationNodeStateMachineTransition_5tol6"), "ready_roll_forward", "hit", SubResource("AnimationNodeStateMachineTransition_rf25h"), "ready_roll_backward", "hit", SubResource("AnimationNodeStateMachineTransition_fs8xl"), "dead", "hit", SubResource("AnimationNodeStateMachineTransition_mnfgy"), "roll_backward", "hop_land", SubResource("AnimationNodeStateMachineTransition_aowf2"), "roll_forward", "hop_land", SubResource("AnimationNodeStateMachineTransition_317f7"), "hop_ready", "idle", SubResource("AnimationNodeStateMachineTransition_4y6r4"), "hop_down", "hop_up", SubResource("AnimationNodeStateMachineTransition_o5xan"), "hop_land", "hop_up", SubResource("AnimationNodeStateMachineTransition_bene4"), "ready_roll_forward", "hop_up", SubResource("AnimationNodeStateMachineTransition_vqodg"), "ready_roll_backward", "hop_up", SubResource("AnimationNodeStateMachineTransition_p1ppf")]
+graph_offset = Vector2(129.144, -390.726)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_v7tup"]
 
@@ -1131,6 +1139,7 @@ vframes = 6
 frame = 29
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_1ra3r")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
