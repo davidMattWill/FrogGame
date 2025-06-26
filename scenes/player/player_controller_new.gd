@@ -3,11 +3,13 @@ extends CharacterBody2D
 # Constants for movement
 const SPEED = 120
 const JUMP_VELOCITY = -500
+const JUMP_VELOCITY_WATER = -200
 const KNOCKBACK_SPEED = 200
 const JUMP_FROM_ROLL_VELOCITY = 450
 
 # Gravity from project settings for consistency with RigidBody nodes
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var water_gravity = gravity * 0.20
 var direction: Vector2 = Vector2.ZERO
 
 # Node references
@@ -50,6 +52,7 @@ var max_hold_time = 0.5
 
 var is_on_slope: bool = false
 var jumping_from_roll: bool = false
+var is_in_water: bool = false
 
 signal health_changed(value)
 signal player_dead()
@@ -106,13 +109,16 @@ func _process(delta):
 func _physics_process(delta):
 	#apply gravity whenever not on floor
 	if not is_on_floor():
-		velocity.y += gravity * delta
+		if is_in_water:
+			velocity.y += water_gravity * delta
+		else:
+			velocity.y += gravity * delta
 	if is_on_floor():
 		velocity.x = 0
 		jumping_from_roll = false
 	#get user input for direction
 	direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized()
-	if direction != Vector2.ZERO and not is_on_floor() and not is_on_slope and not jumping_from_roll:
+	if direction != Vector2.ZERO and not is_on_floor() and not is_on_slope and not jumping_from_roll and current_state != "hit" and current_state != "dead":
 		velocity.x = direction.x * SPEED
 	velocity.x = move_toward(velocity.x, 0, SPEED * delta)
 	
@@ -141,7 +147,10 @@ func _physics_process(delta):
 			_set_animation_conditions_true(["hop_cancelled"])
 		else:
 			if is_on_floor():
-				velocity.y = JUMP_VELOCITY * (time_spacebar_held / max_hold_time)
+				if is_in_water:
+					velocity.y = JUMP_VELOCITY_WATER * (time_spacebar_held / max_hold_time)
+				else:
+					velocity.y = JUMP_VELOCITY * (time_spacebar_held / max_hold_time)
 				space_released = false
 				allowed_to_hop = false
 		if is_on_slope:
@@ -181,8 +190,8 @@ func _on_player_attacked(attack_vector = null):
 		emit_signal("player_dead")
 	_set_animation_conditions_true(["player_hit"])
 	if attack_vector != null:
-		var attack_dir = -attack_vector.x / abs(attack_vector.x)
-		velocity = Vector2(attack_dir * KNOCKBACK_SPEED, -KNOCKBACK_SPEED)
+		var attack_dir = sign(attack_vector.x)
+		velocity = Vector2(-attack_dir * KNOCKBACK_SPEED, -KNOCKBACK_SPEED)
 	else:
 		velocity.x = -velocity.x * KNOCKBACK_SPEED
 		velocity.y = -KNOCKBACK_SPEED

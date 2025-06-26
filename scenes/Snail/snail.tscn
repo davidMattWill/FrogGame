@@ -234,7 +234,8 @@ graph_offset = Vector2(13, -60)
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_utll5"]
 
 [node name="Snail" type="CharacterBody2D"]
-collision_layer = 2
+collision_layer = 4
+collision_mask = 3
 script = ExtResource("1_lihop")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

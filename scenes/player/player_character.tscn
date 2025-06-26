@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cl0dk12y43brc" path="res://imports/Assets/Player/player-sheet-fixed.png" id="1_2ietk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ra3r"]
-size = Vector2(11, 12)
+size = Vector2(8, 7)
 
 [sub_resource type="Animation" id="Animation_0i10w"]
 length = 0.001
@@ -1139,7 +1139,7 @@ vframes = 6
 frame = 29
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 0)
+position = Vector2(0, 2.5)
 shape = SubResource("RectangleShape2D_1ra3r")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

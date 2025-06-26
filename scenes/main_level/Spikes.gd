@@ -6,7 +6,7 @@ func _ready():
 	var area = Area2D.new()
 	area.name = "CollisionArea"
 	add_child(area)
-	area.collision_layer = 4  # Layer 1
+	area.collision_layer = 5  # Layer 1
 	area.collision_mask = 2  # Detects layer 2 (player)
 
 	# Get used cells in layer 0 (adjust if using different layer)
@@ -38,4 +38,3 @@ func _on_area_body_entered(body):
 			print("Spike collided with player")
 			player._on_player_attacked()
 		
-

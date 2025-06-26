@@ -69,6 +69,7 @@ func _process(delta):
 		var distance = position.distance_to(player.position)
 		if distance <= collision_threshold:
 			print("COLLIDING")
+			print(self.position - player.position)
 			player._on_player_attacked(self.position - player.position)
 		
 		var distance_vector = player.position - self.position

@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://m842algw3u8q"]
+
+[ext_resource type="Script" path="res://scenes/geyser/geyser_small.gd" id="1_c8cl8"]
+[ext_resource type="Texture2D" uid="uid://crcdsblmtw8by" path="res://imports/Assets/geyser/geyser-sheet.png" id="1_ufepk"]
+[ext_resource type="PackedScene" uid="uid://i8foll2kbj3d" path="res://scenes/water/bubble.tscn" id="2_3l75s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wfscv"]
+size = Vector2(21, 16)
+
+[node name="geyser_small" type="Node2D"]
+position = Vector2(186, 165)
+script = ExtResource("1_c8cl8")
+bubble_scene = ExtResource("2_3l75s")
+
+[node name="geyser_small_sprite" type="Sprite2D" parent="."]
+position = Vector2(1, -32)
+texture = ExtResource("1_ufepk")
+hframes = 3
+frame = 1
+
+[node name="geyser_small_area" type="Area2D" parent="."]
+
+[node name="geyser_small_collider" type="CollisionShape2D" parent="geyser_small_area"]
+position = Vector2(1.5, -8)
+shape = SubResource("RectangleShape2D_wfscv")
+
+[node name="marker_1" type="Marker2D" parent="."]
+position = Vector2(-6, -9)
+
+[node name="marker_2" type="Marker2D" parent="."]
+position = Vector2(8, -12)
+
+[node name="marker_3" type="Marker2D" parent="."]
+position = Vector2(-1, -16)
