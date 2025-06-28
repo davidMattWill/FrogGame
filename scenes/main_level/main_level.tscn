@@ -1071,7 +1071,7 @@ position = Vector2(736, 80)
 rotation = 1.5708
 
 [node name="PlayerCharacter" parent="." instance=ExtResource("8_bhbga")]
-position = Vector2(720, -89)
+position = Vector2(720, -88)
 floor_stop_on_slope = false
 floor_max_angle = 0.436332
 script = ExtResource("9_bab4c")
