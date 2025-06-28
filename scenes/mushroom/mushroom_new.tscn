@@ -1,0 +1,124 @@
+[gd_scene load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://scenes/mushroom/mushroom.gd" id="1_pajpa"]
+[ext_resource type="Texture2D" uid="uid://wkdm6gy87i8n" path="res://imports/Assets/spritesheets/mushroom_spritesheet.png" id="2_vynmw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kew0c"]
+size = Vector2(20, 27)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cfkbs"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0esk0"]
+animation = &"shoot"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_kkkg4"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_43jm0"]
+advance_mode = 2
+advance_condition = &"mushroom_hit"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_e8is4"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_jksgk"]
+states/idle/node = SubResource("AnimationNodeAnimation_cfkbs")
+states/idle/position = Vector2(366, 106)
+states/shoot/node = SubResource("AnimationNodeAnimation_0esk0")
+states/shoot/position = Vector2(598, 106)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_kkkg4"), "idle", "shoot", SubResource("AnimationNodeStateMachineTransition_43jm0"), "shoot", "idle", SubResource("AnimationNodeStateMachineTransition_e8is4")]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_8puhd"]
+
+[sub_resource type="Animation" id="Animation_afmfm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_rt6tl"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_m4omw"]
+resource_name = "shoot"
+length = 2.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fy5bq"]
+_data = {
+"RESET": SubResource("Animation_afmfm"),
+"idle": SubResource("Animation_rt6tl"),
+"shoot": SubResource("Animation_m4omw")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mjw1g"]
+size = Vector2(22, 28.875)
+
+[node name="Mushroom" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_pajpa")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_vynmw")
+hframes = 4
+
+[node name="MushroomCollider" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2.5)
+shape = SubResource("RectangleShape2D_kew0c")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_jksgk")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_8puhd")
+parameters/conditions/mushroom_hit = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_fy5bq")
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, 2)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_mjw1g")

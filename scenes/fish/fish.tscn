@@ -1,0 +1,151 @@
+[gd_scene load_steps=15 format=3 uid="uid://b3oo6r8v057qb"]
+
+[ext_resource type="Script" path="res://scenes/fish/fish.gd" id="1_i7v77"]
+[ext_resource type="Texture2D" uid="uid://drhu68a4vesq0" path="res://imports/Assets/spritesheets/fish_spritesheet.png" id="2_frm1d"]
+[ext_resource type="PackedScene" uid="uid://bj708pht0wdb" path="res://scenes/water/bubble.tscn" id="2_u8rvu"]
+[ext_resource type="Script" path="res://scenes/fish/Marker2D.gd" id="3_xy12t"]
+
+[sub_resource type="Animation" id="Animation_c4ngh"]
+resource_name = "idle_r"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("fish_frames:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("fish_frames:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_incat"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("fish_frames:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("fish_frames:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_hmau4"]
+resource_name = "idle_l"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("fish_frames:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("fish_frames:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dojfu"]
+_data = {
+"RESET": SubResource("Animation_incat"),
+"idle_l": SubResource("Animation_hmau4"),
+"idle_r": SubResource("Animation_c4ngh")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ygll1"]
+animation = &"idle_l"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_umkr5"]
+animation = &"idle_r"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_bxc2l"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_ygll1")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_umkr5")
+blend_point_1/pos = 1.0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_eh7t4"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_n1c8o"]
+states/idle/node = SubResource("AnimationNodeBlendSpace1D_bxc2l")
+states/idle/position = Vector2(436, 100)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_eh7t4")]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_8wp7u"]
+
+[node name="fish" type="Node2D"]
+position = Vector2(225, 155)
+script = ExtResource("1_i7v77")
+bubble_scene = ExtResource("2_u8rvu")
+
+[node name="fish_frames" type="Sprite2D" parent="."]
+texture = ExtResource("2_frm1d")
+hframes = 2
+
+[node name="Marker2D" type="Marker2D" parent="fish_frames"]
+position = Vector2(8, 0)
+script = ExtResource("3_xy12t")
+
+[node name="ray_left" type="RayCast2D" parent="."]
+rotation = 1.5708
+target_position = Vector2(6.11959e-07, 14)
+
+[node name="ray_right" type="RayCast2D" parent="."]
+rotation = -1.5708
+target_position = Vector2(-5.68248e-07, 13)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_dojfu")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_n1c8o")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_8wp7u")
+parameters/idle/blend_position = 1.09761
