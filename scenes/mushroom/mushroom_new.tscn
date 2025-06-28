@@ -1,7 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://ki7qs3olfwl8"]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://scenes/mushroom/mushroom.gd" id="1_pajpa"]
-[ext_resource type="Texture2D" uid="uid://wkdm6gy87i8n" path="res://imports/Assets/Mushroom/mushroom-1-Sheet-test.png" id="2_vynmw"]
+[ext_resource type="Texture2D" uid="uid://wkdm6gy87i8n" path="res://imports/Assets/spritesheets/mushroom_spritesheet.png" id="2_vynmw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kew0c"]
 size = Vector2(20, 27)

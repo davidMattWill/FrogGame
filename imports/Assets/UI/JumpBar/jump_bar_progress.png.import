@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhbtgia7hcorx"
-path="res://.godot/imported/dust-sheet.png-194cc35d01ecbf9f5f0482ba7a8bc3c8.ctex"
+uid="uid://bhn1ssp8dbul1"
+path="res://.godot/imported/jump_bar_progress.png-198e67be10b71d61c3f5f5bb035004f9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Assets/Player/dust-sheet.png"
-dest_files=["res://.godot/imported/dust-sheet.png-194cc35d01ecbf9f5f0482ba7a8bc3c8.ctex"]
+source_file="res://imports/Assets/UI/JumpBar/jump_bar_progress.png"
+dest_files=["res://.godot/imported/jump_bar_progress.png-198e67be10b71d61c3f5f5bb035004f9.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b14t2dwbqhnl4"
-path="res://.godot/imported/mosquito-test-sheet-export.png-d0c5691abf321f7379dcdae1bd9c429a.ctex"
+uid="uid://ddy4hhfg5d5iw"
+path="res://.godot/imported/bubble_large_spritesheet.png-b8fa597f56e0681bbd36c7588ea07f6c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Assets/Mosquito/mosquito-test-sheet-export.png"
-dest_files=["res://.godot/imported/mosquito-test-sheet-export.png-d0c5691abf321f7379dcdae1bd9c429a.ctex"]
+source_file="res://imports/Assets/spritesheets/bubble_large_spritesheet.png"
+dest_files=["res://.godot/imported/bubble_large_spritesheet.png-b8fa597f56e0681bbd36c7588ea07f6c.ctex"]
 
 [params]
 

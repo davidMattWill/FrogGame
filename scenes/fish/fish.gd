@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends Node2D
 
 var direction = 1.0
 var speed = 5
@@ -10,32 +10,24 @@ var speed = 5
 @onready var fish_frames: Sprite2D = $fish_frames
 
 @onready var marker: Marker2D = $fish_frames/Marker2D
+@onready var animation_tree: AnimationTree = $AnimationTree
 
 func _ready():
 	# set a random direction for the fish to idle
 	direction = 1.0 if randf() > 0.5 else -1.0
-
-func _physics_process(delta):
-	#swap direction if we collide with something
-	if ray_left.is_colliding() or ray_right.is_colliding():
-		direction *= -1
-		
-	
-	velocity.x = direction * speed
-	move_and_slide()
-	
-	
-	
+	animation_tree["parameters/" + "idle" + "/blend_position"] = direction
 
 func _process(delta):
+	if ray_left.is_colliding() or ray_right.is_colliding():
+		direction *= -1
 	if randf() < 0.001:  # 1% chance per frame to idle
 		direction *= -1
 	if randf() < 0.005:  # 0.05% chance per frame to spawn a bubble
 		spawn_bubble()
-	if direction == -1:
-		fish_frames.flip_h = true
-	else:
-		fish_frames.flip_h = false
+	animation_tree["parameters/" + "idle" + "/blend_position"] = direction
+
+	var velocity= direction * speed
+	position.x += velocity * delta
 		
 
 func spawn_bubble():

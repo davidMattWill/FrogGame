@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://unt42xfkbsfe"
-path="res://.godot/imported/snail_spritesheet.png-e51f6ec71b523200f58913b33a1e76cc.ctex"
+uid="uid://bvkcia2pge8dw"
+path="res://.godot/imported/bubble_medium_spritesheet.png-070bd6544558f9ac883df0258e011f9d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Assets/Snail/snail_spritesheet.png"
-dest_files=["res://.godot/imported/snail_spritesheet.png-e51f6ec71b523200f58913b33a1e76cc.ctex"]
+source_file="res://imports/Assets/spritesheets/bubble_medium_spritesheet.png"
+dest_files=["res://.godot/imported/bubble_medium_spritesheet.png-070bd6544558f9ac883df0258e011f9d.ctex"]
 
 [params]
 

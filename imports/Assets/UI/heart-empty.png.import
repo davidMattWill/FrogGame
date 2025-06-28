@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crcdsblmtw8by"
-path="res://.godot/imported/geyser-sheet.png-cb033d80c687850c719cf80d04544f48.ctex"
+uid="uid://blvn0o06jkf4e"
+path="res://.godot/imported/heart-empty.png-e3843ee3eba7331777822fb7e505a793.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Assets/geyser/geyser-sheet.png"
-dest_files=["res://.godot/imported/geyser-sheet.png-cb033d80c687850c719cf80d04544f48.ctex"]
+source_file="res://imports/Assets/UI/heart-empty.png"
+dest_files=["res://.godot/imported/heart-empty.png-e3843ee3eba7331777822fb7e505a793.ctex"]
 
 [params]
 

@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=3 uid="uid://cglqu06xvxyxi"]
+
+[ext_resource type="Script" path="res://scenes/water/seaweed.gd" id="1_n5ch5"]
+[ext_resource type="Texture2D" uid="uid://4xsgtry1yimi" path="res://imports/Assets/spritesheets/seaweed-spritesheet.png" id="1_t7rd6"]
+
+[sub_resource type="Animation" id="Animation_bnvs2"]
+resource_name = "sway_weak"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("seaweed_frames:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_25t2r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("seaweed_frames:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t5ia7"]
+_data = {
+"RESET": SubResource("Animation_25t2r"),
+"sway_weak": SubResource("Animation_bnvs2")
+}
+
+[node name="seaweed" type="Node2D"]
+script = ExtResource("1_n5ch5")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="seaweed_frames" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+texture = ExtResource("1_t7rd6")
+hframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_t5ia7")
+}

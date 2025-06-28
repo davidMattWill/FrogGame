@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhn1ssp8dbul1"
-path="res://.godot/imported/jump_bar_progress.png-128bcce88246a81e163f28db575a779f.ctex"
+uid="uid://b14t2dwbqhnl4"
+path="res://.godot/imported/mosquito_spritesheet.png-4e50f233a7a7f6163c2cb453a9fc249a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Assets/JumpBar/jump_bar_progress.png"
-dest_files=["res://.godot/imported/jump_bar_progress.png-128bcce88246a81e163f28db575a779f.ctex"]
+source_file="res://imports/Assets/spritesheets/mosquito_spritesheet.png"
+dest_files=["res://.godot/imported/mosquito_spritesheet.png-4e50f233a7a7f6163c2cb453a9fc249a.ctex"]
 
 [params]
 

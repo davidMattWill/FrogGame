@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://blvn0o06jkf4e"
-path="res://.godot/imported/heart-empty.png-fbbc629a1a6cac1e3a7c227f0efc7506.ctex"
+uid="uid://devjut50qhjx0"
+path="res://.godot/imported/bubble_spritesheet.png-7ccbb21fd4345d31a7e9051acf3e07a9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Assets/Player/heart-empty.png"
-dest_files=["res://.godot/imported/heart-empty.png-fbbc629a1a6cac1e3a7c227f0efc7506.ctex"]
+source_file="res://imports/Assets/spritesheets/bubble_spritesheet.png"
+dest_files=["res://.godot/imported/bubble_spritesheet.png-7ccbb21fd4345d31a7e9051acf3e07a9.ctex"]
 
 [params]
 

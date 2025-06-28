@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://m842algw3u8q"]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scenes/geyser/geyser_small.gd" id="1_c8cl8"]
-[ext_resource type="Texture2D" uid="uid://crcdsblmtw8by" path="res://imports/Assets/geyser/geyser-sheet.png" id="1_ufepk"]
+[ext_resource type="Texture2D" uid="uid://crcdsblmtw8by" path="res://imports/Assets/spritesheets/geyser_spritesheet.png" id="1_ufepk"]
 [ext_resource type="PackedScene" uid="uid://i8foll2kbj3d" path="res://scenes/water/bubble.tscn" id="2_3l75s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wfscv"]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://wkdm6gy87i8n"
-path="res://.godot/imported/mushroom-1-Sheet-test.png-676243a52428262500c5e5e165f17438.ctex"
+uid="uid://unt42xfkbsfe"
+path="res://.godot/imported/snail_spritesheet.png-53ff81367a172f439fe318cc4537225a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Assets/Mushroom/mushroom-1-Sheet-test.png"
-dest_files=["res://.godot/imported/mushroom-1-Sheet-test.png-676243a52428262500c5e5e165f17438.ctex"]
+source_file="res://imports/Assets/spritesheets/snail_spritesheet.png"
+dest_files=["res://.godot/imported/snail_spritesheet.png-53ff81367a172f439fe318cc4537225a.ctex"]
 
 [params]
 

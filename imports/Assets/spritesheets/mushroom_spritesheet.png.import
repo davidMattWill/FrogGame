@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cl0dk12y43brc"
-path="res://.godot/imported/player-sheet-fixed.png-ec4e43a0cd9c2eec4045c442bc1f142c.ctex"
+uid="uid://wkdm6gy87i8n"
+path="res://.godot/imported/mushroom_spritesheet.png-702d8f515b6413def5509d2e4df780b9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Assets/Player/player-sheet-fixed.png"
-dest_files=["res://.godot/imported/player-sheet-fixed.png-ec4e43a0cd9c2eec4045c442bc1f142c.ctex"]
+source_file="res://imports/Assets/spritesheets/mushroom_spritesheet.png"
+dest_files=["res://.godot/imported/mushroom_spritesheet.png-702d8f515b6413def5509d2e4df780b9.ctex"]
 
 [params]
 

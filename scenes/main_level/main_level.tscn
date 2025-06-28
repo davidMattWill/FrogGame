@@ -1,26 +1,28 @@
-[gd_scene load_steps=29 format=3 uid="uid://cfxmm06bhdn50"]
+[gd_scene load_steps=31 format=3 uid="uid://bvh7a6vsdg8od"]
 
-[ext_resource type="PackedScene" uid="uid://de6hy4rdebt1q" path="res://scenes/geyser/geyser_large.tscn" id="1_ecqtg"]
+[ext_resource type="PackedScene" uid="uid://dlnslxmmuy2qg" path="res://scenes/geyser/geyser_large.tscn" id="1_ecqtg"]
 [ext_resource type="Texture2D" uid="uid://c88ulbc7onqau" path="res://imports/Assets/Environment/level-sheet.png" id="1_sjch7"]
 [ext_resource type="PackedScene" uid="uid://86usnv7c5mgk" path="res://scenes/fish/crab.tscn" id="1_wfj5o"]
 [ext_resource type="Script" path="res://scenes/main_level/Spikes.gd" id="2_imgux"]
-[ext_resource type="PackedScene" uid="uid://cmbi3rais15l5" path="res://scenes/water/water.tscn" id="3_cct4r"]
+[ext_resource type="PackedScene" path="res://scenes/water/water.tscn" id="3_cct4r"]
+[ext_resource type="Texture2D" uid="uid://blvn0o06jkf4e" path="res://imports/Assets/UI/heart-empty.png" id="5_4khbj"]
 [ext_resource type="Texture2D" uid="uid://ddcekqm4nh1g6" path="res://imports/Assets/Environment/platform-sheet-temp.png" id="5_vtt0f"]
+[ext_resource type="Texture2D" uid="uid://oo0axtjejaa6" path="res://imports/Assets/UI/heart-full.png" id="6_vql6k"]
 [ext_resource type="Script" path="res://scenes/main_level/Camera_controller.gd" id="7_su1u3"]
-[ext_resource type="PackedScene" uid="uid://clspkafej47q5" path="res://scenes/player/player_character.tscn" id="8_bhbga"]
+[ext_resource type="PackedScene" uid="uid://b3waklgj8j1ko" path="res://scenes/player/player_character.tscn" id="8_bhbga"]
 [ext_resource type="Script" path="res://scenes/player/player_controller_new.gd" id="9_bab4c"]
-[ext_resource type="Texture2D" uid="uid://bs5k763wlp5k8" path="res://imports/Assets/JumpBar/jump_bar_underneat.png" id="10_4b2j6"]
-[ext_resource type="Texture2D" uid="uid://be10avil15a67" path="res://imports/Assets/JumpBar/jump_bar_border.png" id="11_s0al0"]
-[ext_resource type="Texture2D" uid="uid://bhn1ssp8dbul1" path="res://imports/Assets/JumpBar/jump_bar_progress.png" id="12_bycj0"]
 [ext_resource type="Script" path="res://scenes/main_level/HealthUI_controller.gd" id="13_6avv2"]
-[ext_resource type="Texture2D" uid="uid://blvn0o06jkf4e" path="res://imports/Assets/Player/heart-empty.png" id="14_ucvwl"]
-[ext_resource type="Texture2D" uid="uid://oo0axtjejaa6" path="res://imports/Assets/Player/heart-full.png" id="15_ge7ph"]
 [ext_resource type="PackedScene" uid="uid://bywjionegakts" path="res://scenes/geyser/geyser_area.tscn" id="15_jv2bq"]
+[ext_resource type="PackedScene" uid="uid://cglqu06xvxyxi" path="res://scenes/water/seaweed.tscn" id="16_0xe5f"]
+[ext_resource type="PackedScene" path="res://scenes/geyser/geyser_small.tscn" id="17_03qa2"]
 [ext_resource type="PackedScene" uid="uid://djepv1ai33xqx" path="res://scenes/UI/lost-message.tscn" id="17_3wmw3"]
-[ext_resource type="PackedScene" uid="uid://dv8bdx0y7sihs" path="res://scenes/Snail/snail.tscn" id="18_by6sn"]
+[ext_resource type="Texture2D" uid="uid://bs5k763wlp5k8" path="res://imports/Assets/UI/JumpBar/jump_bar_underneat.png" id="18_b5a8i"]
+[ext_resource type="PackedScene" uid="uid://r6p5pjyd5li4" path="res://scenes/Snail/snail.tscn" id="18_by6sn"]
 [ext_resource type="Shader" path="res://scenes/main_level/chromatic_abberation.gdshader" id="18_dfj47"]
 [ext_resource type="Script" path="res://scenes/main_level/water_area2d.gd" id="18_ssfk3"]
+[ext_resource type="Texture2D" uid="uid://be10avil15a67" path="res://imports/Assets/UI/JumpBar/jump_bar_border.png" id="19_mjwpw"]
 [ext_resource type="PackedScene" uid="uid://b3oo6r8v057qb" path="res://scenes/fish/fish.tscn" id="19_uxp52"]
+[ext_resource type="Texture2D" uid="uid://bhn1ssp8dbul1" path="res://imports/Assets/UI/JumpBar/jump_bar_progress.png" id="20_8qedv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ghwn7"]
 texture = ExtResource("1_sjch7")
@@ -197,11 +199,11 @@ texture = ExtResource("1_sjch7")
 13:2/0 = 0
 13:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 13:2/0/physics_layer_0/angular_velocity = 0.0
-13:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -6, 8, -8, 8, 8, -8, 8)
+13:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -7, 8, -7, 8, 8, -8, 8)
 15:2/0 = 0
 15:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 15:2/0/physics_layer_0/angular_velocity = 0.0
-15:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -7, 8, -4.5, 8, 8, -8, 8)
+15:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -6, 8, -6, 8, 8, -8, 8)
 16:2/0 = 0
 16:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 16:2/0/physics_layer_0/angular_velocity = 0.0
@@ -935,6 +937,9 @@ sources/3 = SubResource("TileSetAtlasSource_v7lbv")
 
 [node name="main_level" type="Node2D"]
 
+[node name="background_map" type="TileMap" parent="."]
+format = 2
+
 [node name="Spikes" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_mo3e4")
 format = 2
@@ -960,7 +965,7 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 0
 offset_right = 36.0
 offset_bottom = 11.0
-texture = ExtResource("14_ucvwl")
+texture = ExtResource("5_4khbj")
 stretch_mode = 1
 metadata/_edit_use_anchors_ = true
 
@@ -968,7 +973,7 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 1
 offset_right = 36.0
 offset_bottom = 11.0
-texture = ExtResource("15_ge7ph")
+texture = ExtResource("6_vql6k")
 expand_mode = 1
 stretch_mode = 1
 metadata/_edit_use_anchors_ = true
@@ -1026,6 +1031,9 @@ position = Vector2(924, 183)
 
 [node name="water" type="Node2D" parent="."]
 
+[node name="seaweed_2" parent="water" instance=ExtResource("16_0xe5f")]
+position = Vector2(824, 192)
+
 [node name="water_area2d" type="Area2D" parent="water"]
 collision_layer = 8
 collision_mask = 2
@@ -1046,8 +1054,21 @@ position = Vector2(800, 193)
 
 [node name="geyser_area" parent="water/geyser_large" instance=ExtResource("15_jv2bq")]
 
+[node name="seaweed_1" parent="water" instance=ExtResource("16_0xe5f")]
+position = Vector2(776, 192)
+
+[node name="seaweed_3" parent="water" instance=ExtResource("16_0xe5f")]
+position = Vector2(760, 112)
+
+[node name="seaweed_4" parent="water" instance=ExtResource("16_0xe5f")]
+position = Vector2(1128, 240)
+
 [node name="geyser_large2" parent="water" instance=ExtResource("1_ecqtg")]
 position = Vector2(1170, 513)
+
+[node name="geyser_small" parent="water" instance=ExtResource("17_03qa2")]
+position = Vector2(736, 80)
+rotation = 1.5708
 
 [node name="PlayerCharacter" parent="." instance=ExtResource("8_bhbga")]
 position = Vector2(720, -89)
@@ -1060,9 +1081,9 @@ offset_left = -16.0
 offset_top = -16.0
 offset_right = 16.0
 offset_bottom = -8.0
-texture_under = ExtResource("10_4b2j6")
-texture_over = ExtResource("11_s0al0")
-texture_progress = ExtResource("12_bycj0")
+texture_under = ExtResource("18_b5a8i")
+texture_over = ExtResource("19_mjwpw")
+texture_progress = ExtResource("20_8qedv")
 metadata/_edit_use_anchors_ = true
 
 [node name="ForegroundMap" type="TileMap" parent="."]

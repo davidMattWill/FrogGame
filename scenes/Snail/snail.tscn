@@ -1,7 +1,7 @@
-[gd_scene load_steps=26 format=3 uid="uid://dv8bdx0y7sihs"]
+[gd_scene load_steps=26 format=3 uid="uid://r6p5pjyd5li4"]
 
 [ext_resource type="Script" path="res://scenes/Snail/snail_controller.gd" id="1_lihop"]
-[ext_resource type="Texture2D" uid="uid://unt42xfkbsfe" path="res://imports/Assets/Snail/snail_spritesheet.png" id="2_ffiv8"]
+[ext_resource type="Texture2D" uid="uid://unt42xfkbsfe" path="res://imports/Assets/spritesheets/snail_spritesheet.png" id="2_16w5r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rhg7l"]
 size = Vector2(10, 9)
@@ -242,7 +242,7 @@ script = ExtResource("1_lihop")
 shape = SubResource("RectangleShape2D_rhg7l")
 
 [node name="Frames" type="Sprite2D" parent="."]
-texture = ExtResource("2_ffiv8")
+texture = ExtResource("2_16w5r")
 hframes = 4
 vframes = 2
 frame = 4

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://be10avil15a67"
-path="res://.godot/imported/jump_bar_border.png-c33d20e9da27326a75e21b23454dcac2.ctex"
+uid="uid://bs5k763wlp5k8"
+path="res://.godot/imported/jump_bar_underneat.png-020e512ecea54e0479833d8a24e16c4e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imports/Assets/JumpBar/jump_bar_border.png"
-dest_files=["res://.godot/imported/jump_bar_border.png-c33d20e9da27326a75e21b23454dcac2.ctex"]
+source_file="res://imports/Assets/UI/JumpBar/jump_bar_underneat.png"
+dest_files=["res://.godot/imported/jump_bar_underneat.png-020e512ecea54e0479833d8a24e16c4e.ctex"]
 
 [params]
 

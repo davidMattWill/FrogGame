@@ -86,7 +86,7 @@ func _process(delta):
 			dust.global_position = $Marker2D.global_position
 			get_parent().add_child(dust)
 	if not is_on_floor() and not is_on_slope:
-		if current_state != "hit":
+		if current_state != "hit" and animation_tree.get("parameters/conditions/" + "player_hit") != true:
 			if velocity.y >= 0: 
 				_set_animation_conditions_true(["hop_apex", "fall_from_roll"])
 			else:
@@ -190,6 +190,7 @@ func _on_player_attacked(attack_vector = null):
 		if playerhealth == 0:
 			emit_signal("player_dead")
 		_set_animation_conditions_true(["player_hit"])
+		print("player_hit")
 
 		if attack_vector != null:
 			var attack_dir = -attack_vector.x / abs(attack_vector.x)

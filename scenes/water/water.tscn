@@ -1,6 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://cmbi3rais15l5"]
+[gd_scene load_steps=10 format=3]
 
-[ext_resource type="Texture2D" uid="uid://bq1rn3v7qawft" path="res://imports/Assets/Water/water-sheet.png" id="1_068rh"]
+[ext_resource type="Texture2D" uid="uid://bq1rn3v7qawft" path="res://imports/Assets/spritesheets/water_spritesheet.png" id="1_068rh"]
 
 [sub_resource type="Animation" id="Animation_4luoc"]
 resource_name = "idle"

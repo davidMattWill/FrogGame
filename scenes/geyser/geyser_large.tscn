@@ -1,16 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://de6hy4rdebt1q"]
+[gd_scene load_steps=4 format=3 uid="uid://dlnslxmmuy2qg"]
 
 [ext_resource type="Script" path="res://scenes/geyser/geyser_large.gd" id="1_g8717"]
-[ext_resource type="Texture2D" uid="uid://crcdsblmtw8by" path="res://imports/Assets/geyser/geyser-sheet.png" id="1_ymfcw"]
-[ext_resource type="PackedScene" uid="uid://i8foll2kbj3d" path="res://scenes/water/bubble.tscn" id="2_bxy51"]
+[ext_resource type="PackedScene" uid="uid://bj708pht0wdb" path="res://scenes/water/bubble.tscn" id="2_bxy51"]
+[ext_resource type="Texture2D" uid="uid://crcdsblmtw8by" path="res://imports/Assets/spritesheets/geyser_spritesheet.png" id="3_sn0my"]
 
 [node name="geyser_large" type="Node2D"]
+position = Vector2(323, 268)
 script = ExtResource("1_g8717")
 bubble_scene = ExtResource("2_bxy51")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -32)
-texture = ExtResource("1_ymfcw")
+texture = ExtResource("3_sn0my")
 hframes = 3
 
 [node name="marker_1" type="Marker2D" parent="."]
