@@ -1,5 +1,7 @@
 extends Node2D
 
+
+@onready var player: CharacterBody2D = get_node("/root/main_level/PlayerCharacter")
 @export var bubble_scene: PackedScene
 
 @onready var marker_1: Marker2D = $marker_1
@@ -14,6 +16,10 @@ var geyser_time_max = 10
 var bubble_probability = 0.2
 var medium_bubble_probability = 0.20
 var large_bubble_probability = 0.05
+
+var angle_bound = 10
+var max_distance = 100
+var min_distance = 10
 
 
 # Called when the node enters the scene tree for the first time.

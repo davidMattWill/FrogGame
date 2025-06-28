@@ -10,7 +10,8 @@ size = Vector2(12, 7)
 
 [node name="fish" type="CharacterBody2D"]
 position = Vector2(223, 132)
-collision_layer = 4
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_i7v77")
 bubble_scene = ExtResource("2_u8rvu")
 

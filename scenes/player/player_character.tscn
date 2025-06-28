@@ -1123,7 +1123,7 @@ states/roll_backward/position = Vector2(466.714, -265.659)
 states/roll_forward/node = SubResource("AnimationNodeBlendSpace2D_238ew")
 states/roll_forward/position = Vector2(927.554, -265.659)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_gfry7"), "hop_up", "hop_down", SubResource("AnimationNodeStateMachineTransition_u1263"), "hop_down", "hop_land", SubResource("AnimationNodeStateMachineTransition_h4acn"), "hop_land", "idle", SubResource("AnimationNodeStateMachineTransition_4881i"), "idle", "hop_ready", SubResource("AnimationNodeStateMachineTransition_a5qbo"), "ready_roll_backward", "roll_backward", SubResource("AnimationNodeStateMachineTransition_tx7u7"), "hop_up", "ready_roll_backward", SubResource("AnimationNodeStateMachineTransition_1lyuf"), "hop_down", "ready_roll_backward", SubResource("AnimationNodeStateMachineTransition_y365p"), "roll_backward", "hop_up", SubResource("AnimationNodeStateMachineTransition_dmgrg"), "roll_backward", "hop_down", SubResource("AnimationNodeStateMachineTransition_13iwg"), "hop_down", "ready_roll_forward", SubResource("AnimationNodeStateMachineTransition_prg2j"), "roll_forward", "hop_down", SubResource("AnimationNodeStateMachineTransition_savug"), "roll_forward", "hop_up", SubResource("AnimationNodeStateMachineTransition_xm0yt"), "ready_roll_forward", "roll_forward", SubResource("AnimationNodeStateMachineTransition_8t1uc"), "roll_backward", "hit", SubResource("AnimationNodeStateMachineTransition_pgirm"), "roll_forward", "hit", SubResource("AnimationNodeStateMachineTransition_pr8ug"), "hop_up", "hit", SubResource("AnimationNodeStateMachineTransition_jyk48"), "hop_down", "hit", SubResource("AnimationNodeStateMachineTransition_43pk4"), "hop_land", "hit", SubResource("AnimationNodeStateMachineTransition_lcnfb"), "idle", "hit", SubResource("AnimationNodeStateMachineTransition_8fo2t"), "hit", "dead", SubResource("AnimationNodeStateMachineTransition_hmsly"), "dead", "idle", SubResource("AnimationNodeStateMachineTransition_0sdk0"), "hop_ready", "hop_up", SubResource("AnimationNodeStateMachineTransition_kkkbr"), "hop_ready", "hit", SubResource("AnimationNodeStateMachineTransition_5tol6"), "ready_roll_forward", "hit", SubResource("AnimationNodeStateMachineTransition_rf25h"), "ready_roll_backward", "hit", SubResource("AnimationNodeStateMachineTransition_fs8xl"), "dead", "hit", SubResource("AnimationNodeStateMachineTransition_mnfgy"), "roll_backward", "hop_land", SubResource("AnimationNodeStateMachineTransition_aowf2"), "roll_forward", "hop_land", SubResource("AnimationNodeStateMachineTransition_317f7"), "hop_ready", "idle", SubResource("AnimationNodeStateMachineTransition_4y6r4"), "hop_down", "hop_up", SubResource("AnimationNodeStateMachineTransition_o5xan"), "hop_land", "hop_up", SubResource("AnimationNodeStateMachineTransition_bene4"), "ready_roll_forward", "hop_up", SubResource("AnimationNodeStateMachineTransition_vqodg"), "ready_roll_backward", "hop_up", SubResource("AnimationNodeStateMachineTransition_p1ppf")]
-graph_offset = Vector2(129.144, -390.726)
+graph_offset = Vector2(483.144, 31.274)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_v7tup"]
 
@@ -1177,10 +1177,11 @@ parameters/ready_roll_forward/blend_position = Vector2(0.438369, 0.490909)
 parameters/roll_backward/blend_position = Vector2(-1, 1)
 parameters/roll_forward/blend_position = Vector2(0.616311, 0.863636)
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
-rotation = 0.785398
-target_position = Vector2(0, 20)
-hit_from_inside = true
-
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(0, 1)
+
+[node name="roll_raycast" type="RayCast2D" parent="."]
+rotation = 0.785398
+target_position = Vector2(0, 20)
+collision_mask = 5
+hit_from_inside = true

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bywjionegakts"]
+
+[ext_resource type="Script" path="res://scenes/geyser/geyser_area.gd" id="1_l6whb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k72d2"]
+size = Vector2(30, 215)
+
+[node name="geyser_area" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_l6whb")
+
+[node name="geyser_collider" type="CollisionShape2D" parent="."]
+position = Vector2(0, -125.5)
+shape = SubResource("RectangleShape2D_k72d2")

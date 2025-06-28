@@ -6,6 +6,7 @@ const JUMP_VELOCITY = -500
 const JUMP_VELOCITY_WATER = -200
 const KNOCKBACK_SPEED = 200
 const JUMP_FROM_ROLL_VELOCITY = 450
+const GESYER_BOOST_VELOCITY = -400
 
 # Gravity from project settings for consistency with RigidBody nodes
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -15,7 +16,7 @@ var direction: Vector2 = Vector2.ZERO
 # Node references
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
-@onready var ray: RayCast2D = $RayCast2D
+@onready var roll_ray: RayCast2D = $roll_raycast
 @onready var dust_scene = preload("res://scenes/player/dust_plume.tscn")
 @onready var jump_bar = $JumpBar
 
@@ -63,6 +64,7 @@ func _ready():
 	animation_tree.active = true
 	animation_tree.connect("animation_finished", _on_animation_finished)
 	jump_bar.visible = false
+	
 
 func _process(delta):
 	# Update animation parameters each frame
@@ -71,7 +73,7 @@ func _process(delta):
 	if direction != Vector2.ZERO and (current_state == "idle" or current_state ==  "hop_ready" or current_state == "hop_up" or current_state == "hop_down") and not jumping_from_roll:
 		for state in anim_states:
 			animation_tree["parameters/" + state + "/blend_position"] = direction
-		ray.rotation = -direction.x * 45
+		roll_ray.rotation = -direction.x * 45
 	#init the hop landing sqeuence
 	if is_on_floor():
 		if current_state == "hit":
@@ -97,7 +99,7 @@ func _process(delta):
 		#meaning we're on a slope
 		if (angle_deg < -40 and angle_deg > -50) or (angle_deg < -130 and angle_deg > -140):
 			is_on_slope = true
-			if ray.is_colliding():
+			if roll_ray.is_colliding():
 				_set_animation_conditions_true(["roll_backward"])
 			else:
 				_set_animation_conditions_true(["roll_forward"])
@@ -105,6 +107,8 @@ func _process(delta):
 			is_on_slope = false
 	else:
 		is_on_slope = false
+	
+	self.position = Vector2(round(position.x), position.y)
 
 func _physics_process(delta):
 	#apply gravity whenever not on floor
@@ -113,14 +117,17 @@ func _physics_process(delta):
 			velocity.y += water_gravity * delta
 		else:
 			velocity.y += gravity * delta
-	if is_on_floor():
+	if is_on_floor() and animation_tree.get("parameters/conditions/player_hit") != true and current_state != "hit":
 		velocity.x = 0
 		jumping_from_roll = false
 	#get user input for direction
 	direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized()
 	if direction != Vector2.ZERO and not is_on_floor() and not is_on_slope and not jumping_from_roll and current_state != "hit" and current_state != "dead":
 		velocity.x = direction.x * SPEED
-	velocity.x = move_toward(velocity.x, 0, SPEED * delta)
+	if is_in_water:
+		velocity.x = move_toward(velocity.x, 0, SPEED * delta * 0.5)
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED * delta * 0.5)
 	
 	#if spacebar is not already being held we can allow input
 	if Input.is_action_just_pressed("ui_accept") and not space_held:
@@ -159,7 +166,7 @@ func _physics_process(delta):
 			animation_tree["parameters/" + "hop_up" + "/blend_position"] = wall_normal
 			animation_tree["parameters/" + "hop_down" + "/blend_position"] = wall_normal
 			jumping_from_roll = true
-
+	velocity = Vector2(round(velocity.x), round(velocity.y))
 	move_and_slide()
 
 #update the animation conditions in the state machine
@@ -175,47 +182,45 @@ func _set_animation_conditions_true(conditions: Array):
 			animation_tree.set("parameters/conditions/" + condition, true)
 
 func _on_player_attacked(attack_vector = null):
-	var frames: Sprite2D = $player_frames
-		#make player fall in correct direction with correct orientation
-	if !frames.flip_h:
-		animation_tree["parameters/" + "hit" + "/blend_position"] = Vector2(1,0)
-		animation_tree["parameters/" + "dead" + "/blend_position"] = Vector2(1,0)
-	else:
-		animation_tree["parameters/" + "hit" + "/blend_position"] = Vector2(-1,0)
-		animation_tree["parameters/" + "dead" + "/blend_position"] = Vector2(-1,0)
-		
-	playerhealth = playerhealth - 1
-	emit_signal("health_changed", playerhealth)
-	if playerhealth == 0:
-		emit_signal("player_dead")
-	_set_animation_conditions_true(["player_hit"])
-	if attack_vector != null:
-		var attack_dir = sign(attack_vector.x)
-		velocity = Vector2(-attack_dir * KNOCKBACK_SPEED, -KNOCKBACK_SPEED)
-	else:
-		velocity.x = -velocity.x * KNOCKBACK_SPEED
-		velocity.y = -KNOCKBACK_SPEED
-		var sign_x = sign(velocity.x)
-		var sign_y = sign(velocity.y)
-		print(sign_x, sign_y)
-		if sign_x != 0:
-			velocity.x = sign_x * KNOCKBACK_SPEED
+	if animation_tree.get("parameters/conditions/player_hit") != true and current_state != "hit":
+		var frames: Sprite2D = $player_frames
+
+		playerhealth = playerhealth - 1
+		emit_signal("health_changed", playerhealth)
+		if playerhealth == 0:
+			emit_signal("player_dead")
+		_set_animation_conditions_true(["player_hit"])
+
+		if attack_vector != null:
+			var attack_dir = -attack_vector.x / abs(attack_vector.x)
+			velocity = Vector2(attack_dir * KNOCKBACK_SPEED, -KNOCKBACK_SPEED)
 		else:
-			if !frames.flip_h:
-				velocity.x = -1 * KNOCKBACK_SPEED
+			velocity.x = -velocity.x * KNOCKBACK_SPEED
+			velocity.y = -KNOCKBACK_SPEED
+			var sign_x = sign(velocity.x)
+			var sign_y = sign(velocity.y)
+			print(sign_x, sign_y)
+			if sign_x != 0:
+				velocity.x = sign_x * KNOCKBACK_SPEED
 			else:
-				velocity.x = KNOCKBACK_SPEED
-		if sign_y != 0:
-			velocity.y = sign_y * KNOCKBACK_SPEED
-		else:
-			velocity.y = -1 * KNOCKBACK_SPEED
-		
-		
-	
+				if !frames.flip_h:
+					velocity.x = -1 * KNOCKBACK_SPEED
+				else:
+					velocity.x = KNOCKBACK_SPEED
+			if sign_y != 0:
+				velocity.y = sign_y * KNOCKBACK_SPEED
+			else:
+				velocity.y = -1 * KNOCKBACK_SPEED
+		animation_tree["parameters/" + "dead" + "/blend_position"] = -velocity.normalized()
+		animation_tree["parameters/" + "hit" + "/blend_position"] = -velocity.normalized()
+
 func _on_hit_mushroom():
 	print(current_state)
 	_set_animation_conditions_true(["hit_mushroom"])
 	velocity.y = JUMP_VELOCITY * 1.5
+
+func _on_geyser_boost():
+	velocity.y = GESYER_BOOST_VELOCITY
 	
 func _on_animation_finished(anim: String):
 	if anim in ["hop_ready_l", "hop_ready_r"]:
