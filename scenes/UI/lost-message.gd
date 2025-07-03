@@ -2,7 +2,6 @@ extends Sprite2D
 
 # Time to fully reveal the sprite (in seconds, adjust to approximate per-letter timing)
 @export var reveal_duration: float = 2.0
-@onready var player: CharacterBody2D = get_node("/root/main_level/PlayerCharacter")
 # Internal variables
 var reveal_progress: float = 0.0
 var is_revealing: bool = false
