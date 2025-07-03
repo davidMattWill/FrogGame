@@ -9,8 +9,6 @@ var is_revealing: bool = false
 
 
 func _ready():
-	player.connect("player_dead", self._on_player_dead)
-	
 	# Apply the shader if not already set
 	if not material or not material.shader:
 		material = ShaderMaterial.new()
@@ -32,20 +30,12 @@ func _ready():
 	# Start revealing when instanced
 	start_reveal()
 
-func _on_visibility_changed():
-	# Restart reveal when visibility changes to true
-	if visible and not is_revealing:
-		start_reveal()
-
-func _on_player_dead():
-	self.visible = true
 
 func start_reveal():
 	# Reset and start the reveal
 	reveal_progress = 0.0
 	material.set_shader_parameter("progress", 0.0)
 	is_revealing = true
-
 
 func _process(delta):
 	if is_revealing:

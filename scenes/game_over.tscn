@@ -1,0 +1,220 @@
+[gd_scene load_steps=22 format=3 uid="uid://b1et4aot1mtdr"]
+
+[ext_resource type="Texture2D" uid="uid://be4ij0meh5khm" path="res://imports/Assets/UI/try_again_spritesheet.png" id="1_d0e7s"]
+[ext_resource type="Script" path="res://scenes/try_again_button_area.gd" id="1_yfa0d"]
+[ext_resource type="Script" path="res://scenes/quit_button_area.gd" id="3_iv8al"]
+[ext_resource type="Texture2D" uid="uid://tp5nl4sd0ssm" path="res://imports/Assets/UI/quit_spritesheet.png" id="3_iwv10"]
+[ext_resource type="Shader" path="res://scenes/main_level/chromatic_abberation.gdshader" id="5_mq1yg"]
+[ext_resource type="PackedScene" uid="uid://djepv1ai33xqx" path="res://scenes/UI/lost-message.tscn" id="5_qa2tk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0rydd"]
+atlas = ExtResource("1_d0e7s")
+region = Rect2(0, 0, 96, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_seimx"]
+atlas = ExtResource("1_d0e7s")
+region = Rect2(96, 0, 96, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vjgpw"]
+atlas = ExtResource("1_d0e7s")
+region = Rect2(192, 0, 96, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ikp53"]
+atlas = ExtResource("1_d0e7s")
+region = Rect2(96, 0, 96, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b6ggn"]
+atlas = ExtResource("1_d0e7s")
+region = Rect2(0, 0, 96, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bkfxc"]
+atlas = ExtResource("1_d0e7s")
+region = Rect2(0, 0, 96, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r75pp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0rydd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_seimx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vjgpw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ikp53")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b6ggn")
+}],
+"loop": false,
+"name": &"click",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bkfxc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s0v4a"]
+size = Vector2(146.5, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xma6e"]
+atlas = ExtResource("3_iwv10")
+region = Rect2(0, 0, 96, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vyo0x"]
+atlas = ExtResource("3_iwv10")
+region = Rect2(96, 0, 96, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vrsya"]
+atlas = ExtResource("3_iwv10")
+region = Rect2(192, 0, 96, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6l8qx"]
+atlas = ExtResource("3_iwv10")
+region = Rect2(0, 0, 96, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dfctt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xma6e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vyo0x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vrsya")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vyo0x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xma6e")
+}],
+"loop": false,
+"name": &"click",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6l8qx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c0m4n"]
+size = Vector2(145.5, 32)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_10rpo"]
+shader = ExtResource("5_mq1yg")
+shader_parameter/r_displacement = Vector2(3, 0)
+shader_parameter/g_displacement = Vector2(0, 0)
+shader_parameter/b_displacement = Vector2(-3, 0)
+shader_parameter/height = 0.0
+shader_parameter/width = 0.0
+shader_parameter/fade = 0.7
+
+[node name="game_over" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="try_again_control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+mouse_filter = 1
+
+[node name="try_again_button_area" type="Area2D" parent="try_again_control"]
+position = Vector2(0.5, -15)
+script = ExtResource("1_yfa0d")
+
+[node name="try_again_button" type="AnimatedSprite2D" parent="try_again_control/try_again_button_area"]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_r75pp")
+animation = &"click"
+frame = 4
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="try_again_control/try_again_button_area"]
+position = Vector2(-0.75, -4)
+shape = SubResource("RectangleShape2D_s0v4a")
+
+[node name="quit_control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="quit_button_area" type="Area2D" parent="quit_control"]
+position = Vector2(0, -4)
+script = ExtResource("3_iv8al")
+
+[node name="quit_button_frames" type="AnimatedSprite2D" parent="quit_control/quit_button_area"]
+position = Vector2(-1.5, 42)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_dfctt")
+animation = &"click"
+frame = 4
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="quit_control/quit_button_area"]
+position = Vector2(-2.25, 38)
+shape = SubResource("RectangleShape2D_c0m4n")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+
+[node name="Lost Message" parent="VBoxContainer" instance=ExtResource("5_qa2tk")]
+visible = true
+position = Vector2(0, 50)
+scale = Vector2(4, 4)
+
+[node name="crt_effect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_10rpo")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1

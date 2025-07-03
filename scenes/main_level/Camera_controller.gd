@@ -2,7 +2,7 @@ extends Camera2D
 
 # Reference to the player node
 @onready var player: CharacterBody2D = get_node("/root/main_level/PlayerCharacter")
-@onready var lost_message: Sprite2D = get_node("/root/main_level/UICanvasLayer/Messages/Lost Message")
+
 
 # How quickly the camera catches up (lower = smoother, more trailing)
 @export var follow_speed: float = 20
@@ -34,10 +34,6 @@ func _process(delta):
 		# Enforce the lower boundary
 		if new_position.y >= lower_bound_y:
 			new_position.y = lower_bound_y
-			#instantiate game over screen
-			if lost_message:
-				print("LOST")
-				lost_message.visible = true
 		
 		# Apply the position
 		global_position = new_position

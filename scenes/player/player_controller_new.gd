@@ -26,7 +26,7 @@ var anim_states = [
 	"hop_down", "hop_land", 
 	"ready_roll_backward", "roll_backward", 
 	"ready_roll_forward", "roll_forward",
-	"hit", "dead"]
+	"hit", "dead", "revive"]
 
 var anim_conditions = [
 	"fall_from_roll",
@@ -37,7 +37,7 @@ var anim_conditions = [
 	"hop_start",
 	"jump_from_roll",
 	"player_dead",
-	"player_dead_reset",
+	"player_revive",
 	"player_hit",
 	"roll_backward",
 	"roll_forward",
@@ -54,6 +54,7 @@ var max_hold_time = 0.5
 var is_on_slope: bool = false
 var jumping_from_roll: bool = false
 var is_in_water: bool = false
+var is_hit: bool = false
 
 signal health_changed(value)
 signal player_dead()
@@ -76,6 +77,8 @@ func _process(delta):
 		roll_ray.rotation = -direction.x * 45
 	#init the hop landing sqeuence
 	if is_on_floor():
+		if current_state == "idle":
+			is_hit = false
 		if current_state == "hit":
 			_set_animation_conditions_true(["player_dead"])
 		if current_state == "hop_down" or current_state == "hop_up" or current_state == "roll_forward" or current_state == "roll_backward":
@@ -91,6 +94,8 @@ func _process(delta):
 				_set_animation_conditions_true(["hop_apex", "fall_from_roll"])
 			else:
 				_set_animation_conditions_true(["hop_released", "jump_from_roll"])
+	if Input.is_action_just_pressed("ui_accept") and current_state == "dead":
+		_set_animation_conditions_true(["player_revive"])
 
 	if is_on_wall():
 		var wall_normal = get_wall_normal()
@@ -120,6 +125,7 @@ func _physics_process(delta):
 	if is_on_floor() and animation_tree.get("parameters/conditions/player_hit") != true and current_state != "hit":
 		velocity.x = 0
 		jumping_from_roll = false
+	
 	#get user input for direction
 	direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized()
 	if direction != Vector2.ZERO and not is_on_floor() and not is_on_slope and not jumping_from_roll and current_state != "hit" and current_state != "dead":
@@ -130,14 +136,14 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta * 0.5)
 	
 	#if spacebar is not already being held we can allow input
-	if Input.is_action_just_pressed("ui_accept") and not space_held:
+	if Input.is_action_just_pressed("ui_accept") and not space_held and current_state != "hit" and current_state != "dead" and current_state != "revive":
 		#set the condition true for going into hop_ready state
 		_set_animation_conditions_true(["hop_start"])
 		#activate the jump bar
 		space_held = true
 		space_released = false
 		time_spacebar_held = 0.0
-		if is_on_floor() and (current_state != "hit" and current_state != "dead"):
+		if is_on_floor() and (current_state != "hit" and current_state != "dead" and current_state != "revive"):
 			jump_bar.visible = true
 	#update delta for time held
 	if space_held:
@@ -182,7 +188,8 @@ func _set_animation_conditions_true(conditions: Array):
 			animation_tree.set("parameters/conditions/" + condition, true)
 
 func _on_player_attacked(attack_vector = null):
-	if animation_tree.get("parameters/conditions/player_hit") != true and current_state != "hit":
+	if animation_tree.get("parameters/conditions/player_hit") != true and is_hit != true:
+		is_hit = true
 		var frames: Sprite2D = $player_frames
 
 		playerhealth = playerhealth - 1
